@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadSetter AI — Research: Market, Competition, Channels</title>
+<style>
+  :root{
+    --bg:#0d0f12; --bg2:#12151a; --bg3:#171b21;
+    --ink:#e8eaed; --muted:#9aa3af; --dim:#5c6672;
+    --line:#232a33; --accent:#e8a33d; --accent2:#3d9be8;
+    --ok:#3ddc84; --warn:#e8a33d;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px 28px 80px}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:26px}
+  .nav{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:14px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  h1{font-size:26px;font-weight:650;letter-spacing:-.01em}
+  .updated{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px}
+
+  section{margin-bottom:34px}
+  h2{font-size:13px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:15px;font-weight:600;margin:18px 0 8px}
+  ul{padding-left:18px;color:var(--muted)}
+  li{margin-bottom:8px}
+  li b, li strong{color:var(--ink);font-weight:600}
+  p{color:var(--muted);margin-bottom:12px;max-width:80ch}
+  p b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px;margin-bottom:14px}
+  th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:8px 10px;border-bottom:1px solid var(--line);font-weight:500}
+  td{padding:8px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;color:var(--muted)}
+  td b{color:var(--ink)}
+  tr:last-child td{border-bottom:none}
+  td.num, th.num{text-align:right}
+  tbody tr:hover{background:var(--bg2)}
+  .pos{color:var(--ok)}
+  .accent-td{color:var(--accent)}
+  .warn-td{color:var(--warn)}
+
+  .callout{background:var(--bg3);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:14px 16px;margin:14px 0}
+  .callout b{color:var(--ink)}
+  .good{background:var(--bg3);border:1px solid var(--line);border-left:3px solid var(--ok);border-radius:8px;padding:14px 16px;margin:14px 0}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="nav"><span>LeadSetter AI · Research</span><span><a href="./">← Build Log</a></span></div>
+    <div class="kicker">Market Research · Competitive Analysis · Acquisition Channels</div>
+    <h1>Why the offer wins, and how we get clients for ~$500</h1>
+    <div class="updated">Compiled 2026-08-07 · 3 research streams · sources linked at bottom</div>
+  </header>
+
+  <section>
+    <h2>01 · The price is a weapon</h2>
+    <p><b>$1,000 setup + $750/mo for 30 qualified appointment leads = $25 per qualified lead.</b> Every channel the contractor currently uses costs far more:</p>
+    <table>
+      <thead><tr><th>Channel</th><th class="num">Cost per lead / booked job</th><th>Problem</th></tr></thead>
+      <tbody>
+        <tr><td><b>LeadSetter AI</b></td><td class="num pos">$25 / qualified lead</td><td>exclusive, done-for-you, fixed price</td></tr>
+        <tr><td>Google Ads (HVAC)</td><td class="num">$45–104</td><td>rising; up to $149 non-branded</td></tr>
+        <tr><td>Google Ads (roofing)</td><td class="num">$79–228+</td><td>surges past $200 in season/CA</td></tr>
+        <tr><td>Angi / HomeAdvisor</td><td class="num">$15–100+/lead</td><td class="warn-td">same lead sold to 3–8 competitors</td></tr>
+        <tr><td>Angi true cost / booked job</td><td class="num">$250–1,000+</td><td>8–20% close rates on shared leads</td></tr>
+        <tr><td>Done-for-you AI agencies</td><td class="num">$1,500–5,000/mo</td><td>cost-prohibitive for local contractors</td></tr>
+      </tbody>
+    </table>
+    <div class="good"><b>Pitch asset:</b> "What did Angi cost you last year?" → the math sells the swap. Contractors spend $1k–$10k+/mo on marketing; 72% plan to spend more.</div>
+  </section>
+
+  <section>
+    <h2>02 · Competitive landscape</h2>
+    <p>The market has three buckets — and a hole in the middle where we sit.</p>
+    <table>
+      <thead><tr><th>Player</th><th>Type</th><th>Pricing</th><th>Weakness we exploit</th></tr></thead>
+      <tbody>
+        <tr><td>Retell AI / Vapi</td><td>DIY voice platform</td><td>~$0.05–0.10/min + Twilio</td><td>needs prompt engineering; no trade workflows</td></tr>
+        <tr><td>Bland.ai / Air AI</td><td>AI SDR platform</td><td>Bland $249+/mo; Air $5K setup</td><td>high friction / enterprise pricing</td></tr>
+        <tr><td>GoHighLevel / Synthflow</td><td>CRM/AI builder</td><td>$29–990/mo</td><td>contractor must configure &amp; maintain it</td></tr>
+        <tr><td>Smith.ai / Ruby</td><td>Human receptionist</td><td>$240–1,500+/mo</td><td>inbound-only, reactive, per-minute cost</td></tr>
+        <tr><td>Angi / Thumbtack / Yelp</td><td>Lead marketplace</td><td>$15–150+/lead</td><td class="warn-td">shared leads, bidding wars, junk volume</td></tr>
+      </tbody>
+    </table>
+    <div class="good"><b>White space:</b> outcome-based, done-for-you, fixed-price AI appointment setting for home services. Cheaper than Google, exclusive vs marketplaces, zero-tech vs DIY tools, fixed price vs human retainers.</div>
+  </section>
+
+  <section>
+    <h2>03 · Regulatory: compliance is the moat</h2>
+    <div class="callout"><b>FCC (2025):</b> AI-generated voices = "artificial or prerecorded voice" under TCPA → <b>prior express written consent required</b> for outbound AI calls. Florida (FTSA), Oklahoma, California add state penalties + private right of action.</div>
+    <p><b>The safe model is inbound-first:</b> AI captures form fills, follows up instantly, confirms appointments, cuts no-shows. We only contact homeowners who asked to be contacted.</p>
+    <ul>
+      <li><b>Speed-to-lead:</b> &gt;50% of jobs go to the contractor who answers first — instant AI follow-up wins deals</li>
+      <li><b>No-shows:</b> 15–25% baseline without confirmation → AI confirm + reminders recover dispatch hours</li>
+      <li><b>Marketing angle:</b> "FCC-compliant AI — we never cold-call homeowners illegally." Competitors who cold-call are one fine away from being a cautionary tale.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>04 · Free &amp; cheap acquisition (ranked)</h2>
+    <table>
+      <thead><tr><th>#</th><th>Channel</th><th>Cost</th><th>First lead in</th><th>How to start today</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>Cold email</b></td><td>$60–90/mo</td><td>7–14 days</td><td>3 domains (~$12) + Instantly ($37) + 500 HVAC-owner emails via Apollo (free tier)</td></tr>
+        <tr><td>2</td><td><b>Cold calling / voicemail drops</b></td><td>$0–30/mo</td><td>1–7 days</td><td>100 local contractor #s from Google Maps + state licensing boards, 30-sec pitch</td></tr>
+        <tr><td>3</td><td><b>Supply-house partnerships</b></td><td>$0 + $250 referral fee</td><td>14–30 days</td><td>Walk into 5 Johnstone/Ferguson branches, pitch rev-share on missed-call clients</td></tr>
+        <tr><td>4</td><td><b>Facebook contractor groups</b></td><td>$0</td><td>14–21 days</td><td>HVAC Nation / Roofing Success — post case-study breakdowns, never pitch cold</td></tr>
+        <tr><td>5</td><td><b>Local SEO + Google Business Profile</b></td><td>$0 (DIY)</td><td>30–60 days</td><td>GBP for "[City] AI solutions for contractors" + booking link</td></tr>
+        <tr><td>6</td><td><b>LinkedIn social selling</b></td><td>$0 (or $80/mo Sales Nav)</td><td>21–30 days</td><td>50 connects/day to contractor owners → 60-sec Loom demo</td></tr>
+        <tr><td>7</td><td><b>Reddit</b> (r/HVAC, r/sweatystartup)</td><td>$0</td><td>21–45 days</td><td>Answer complaint threads with real advice; DMs only</td></tr>
+        <tr><td>8</td><td><b>Nextdoor</b></td><td>$0 organic / $10-day ads</td><td>14–30 days</td><td>Skip organic (flagged); only micro-budget zip-targeted ads</td></tr>
+        <tr><td>9</td><td><b>Meta Ads (cheapest paid)</b></td><td>$10–20/day</td><td>3–7 days</td><td>$150 test: "Free AI missed-call audit" → owners/GMs in HVAC/construction</td></tr>
+      </tbody>
+    </table>
+    <h3>90-day plan ($300–500 total)</h3>
+    <ul>
+      <li><b>Month 1 (~$150) — Outbound velocity:</b> 100 emails/day + 30 calls/day, top 3 states. Goal: 5 discovery calls → 1 closed client ($1,000 + $750/mo)</li>
+      <li><b>Month 2 (~$150) — Partnerships + community:</b> 15 supply-house visits; 3 case-study posts/week in FB groups. Goal: 2 clients via referrals + DMs</li>
+      <li><b>Month 3 (~$150) — Paid retargeting:</b> Meta retargeting test + sequence refinement. Goal: $2,500–3,500 MRR, cash-flow positive</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>05 · Bottom line</h2>
+    <ul>
+      <li><b>Price validated:</b> $25/qualified lead beats Google, Angi, and every agency alternative</li>
+      <li><b>Positioning:</b> done-for-you + outcome-based + exclusive leads + FCC-compliant inbound-first</li>
+      <li><b>Execution:</b> cold email + cold calling + supply houses = fastest path to first client, ~$100–150 month one</li>
+      <li><b>Best sales tool:</b> the prospect's own Angi receipts</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>LeadSetter AI — research summary</span>
+    <span><a href="research/market-competition-advertising.md">Full report (markdown)</a> · Sources: Searchlight Digital, Tradesmen Guild, SchedulingKit, Thomas Town Digital, FCC, vendor pricing pages (2026-08-07)</span>
+  </footer>
+</div>
+</body>
+</html>
