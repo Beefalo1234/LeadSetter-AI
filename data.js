@@ -5,10 +5,10 @@
 
 const PLAN = {
   updated: "2026-08-08",
-  phase: "Execution starts 2026-08-08 — pricing v4 (launch): from $99/mo, 3+ services = 40% off",
+  phase: "Execution starts 2026-08-08 — pricing v5 (launch): $20–80 services, bundles 50% off, full stack $200",
   business: {
     name: "LeadSetter AI — appointment-setting & lead-gen for home-service businesses",
-    model: "Done-for-you AI appointment setting + 8 bundled local-marketing services. AI answers missed calls in ~2s 24/7 and books appointments; bundles add Google Maps/GBP optimization, website management, reviews, SMS, email, social, citations, call tracking. All services $49–99/mo; 3+ services = 40% off. + $20/qualified lead. Launch pricing until footing.",
+    model: "Done-for-you AI appointment setting + 8 bundled local-marketing services. AI answers missed calls in ~2s 24/7 and books appointments; bundles add Google Maps/GBP optimization, website management, reviews, SMS, email, social, citations, call tracking. Services $20–80/mo; any 3+ = 50% off (Starter $60, Advertising $110, Local Domination $110); Full Stack all 9 = $200/mo. + $20/qualified lead. Launch pricing until footing.",
     why: [
       "Observed pricing from research: lead-gen/outreach services sell at EUR 300–800/mo per client (KEqhu_bAjkk), $1–5K setup + $500–2K/mo maintenance (FAR_Fr87gm0), and $4–5K/mo × 17–21 clients ≈ $1M ARR (GkHwnQdoDpM).",
       "Each booked job for these niches is worth $500–$5,000 to the client — paying ~$20/qualified lead for 3–5 extra booked jobs is an easy yes.",
@@ -18,12 +18,13 @@ const PLAN = {
   },
   offer: {
     setupFee: 0,             // USD, one-time — intentionally $0 (low friction, new business)
-    retainer: 99,            // USD / month — Starter (AI appointment setting)
+    retainer: 80,            // USD / month — AI appointment setting à la carte
     perLead: 20,             // USD / qualified appointment lead
     tiers: [
-      { name: "Starter", price: 99, services: "AI appointment setting", note: "+ $20/qualified lead" },
-      { name: "Growth", price: 148, services: "Any 3 services (AI + GBP + website)", note: "40% off: $247 → $148" },
-      { name: "Dominate", price: 355, services: "All 9 services (full stack)", note: "40% off: $591 → $355" }
+      { name: "Starter Bundle", price: 60, services: "AI + Call Tracking + Reviews", note: "50% off $120" },
+      { name: "Advertising Bundle", price: 110, services: "AI + Social + SMS + Email + Call Tracking", note: "50% off $220" },
+      { name: "Local Domination", price: 110, services: "GBP + Reviews + Citations + Website + Social", note: "50% off $220, no lead fee" },
+      { name: "FULL STACK", price: 200, services: "All 9 services", note: "$360 menu → $200 clean" }
     ],
     deliverables: [
       "30 qualified leads/mo (name, contact, source, signal) — $20/lead",
@@ -142,7 +143,8 @@ const PLAN = {
       { date: "2026-08-07", text: "Plan built: niche, offer, exact math, 4-week day-by-day calendar. Dashboard deployed." },
       { date: "2026-08-08", text: "Pricing v2: $0 setup, $149/mo + $20/lead. Prospect list built (12.8K NYC HIC contractors). Call scripts rewritten (Claude Sonnet 5). Short-form ad scripts drafted." },
       { date: "2026-08-08", text: "Pricing v3: bundle tiers — Starter $149, Growth $249 (AI+GBP), Dominate $349 (AI+GBP+website+reviews), all + $20/lead. Competitor pricing verified (8 sources) for comparison table." },
-      { date: "2026-08-08", text: "Pricing v4 (launch): 9 services at $49–99/mo, any 3+ = 40% off. Full stack $355/mo vs $1,600–6,500 market. Ultra-aggressive until footing." }
+      { date: "2026-08-08", text: "Pricing v4 (launch): 9 services at $49–99/mo, any 3+ = 40% off. Full stack $355/mo vs $1,600–6,500 market. Ultra-aggressive until footing." },
+      { date: "2026-08-08", text: "Pricing v5: services $20–80, any 3+ = 50% off. Bundles: Starter $60, Advertising $110, Local Domination $110, Full Stack $200 clean (vs $1,600–6,500 market)." }
     ],
     metrics: { clients: 0, mrr: 0, revenue: 0, prospectsContacted: 0, callsBooked: 0, leadsDelivered: 0 }
   }
