@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadSetter AI — Build Log</title>
+<script src="data.js"></script>
+<style>
+  :root{
+    --bg:#0d0f12; --bg2:#12151a; --bg3:#171b21;
+    --ink:#e8eaed; --muted:#9aa3af; --dim:#5c6672;
+    --line:#232a33; --accent:#e8a33d; --accent2:#3d9be8;
+    --ok:#3ddc84; --warn:#e8a33d;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px 28px 80px}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ── header ── */
+  header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:26px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  h1{font-size:26px;font-weight:650;letter-spacing:-.01em}
+  .phase{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-family:var(--mono);font-size:13px;color:var(--ok)}
+  .phase::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+  .updated{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:4px}
+
+  .statusgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:22px 0 30px}
+  .stat{background:var(--bg2);padding:14px 16px}
+  .stat .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  .stat .val{font-family:var(--mono);font-size:22px;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums}
+  .stat .val small{font-size:13px;color:var(--muted);font-weight:400}
+
+  /* ── sections ── */
+  section{margin-bottom:34px}
+  h2{font-size:13px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:15px;font-weight:600;margin:18px 0 8px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+
+  .bizname{font-size:19px;font-weight:650;margin-bottom:10px}
+  .model{color:var(--muted);margin-bottom:14px;max-width:70ch}
+  ul{padding-left:18px;color:var(--muted)}
+  li{margin-bottom:8px}
+  li b, li strong{color:var(--ink);font-weight:600}
+
+  /* offer boxes */
+  .offergrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+  .offer{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .offer .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim)}
+  .offer .amt{font-family:var(--mono);font-size:24px;font-weight:650;margin-top:6px;font-variant-numeric:tabular-nums}
+  .offer .amt small{font-size:13px;color:var(--muted);font-weight:400}
+  .offer .note{font-size:12px;color:var(--muted);margin-top:4px}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px;margin-bottom:14px}
+  th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:8px 10px;border-bottom:1px solid var(--line);font-weight:500}
+  td{padding:8px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  td.num, th.num{text-align:right}
+  tbody tr:hover{background:var(--bg2)}
+  .pos{color:var(--ok)}
+  .accent-td{color:var(--accent)}
+
+  /* calendar */
+  .week{border:1px solid var(--line);border-radius:8px;margin-bottom:14px;overflow:hidden}
+  .weekhead{display:flex;justify-content:space-between;align-items:baseline;background:var(--bg3);padding:10px 14px;border-bottom:1px solid var(--line)}
+  .weekhead .w{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .weekhead .t{font-size:14px;font-weight:600}
+  .weekhead .d{font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .day{display:flex;gap:12px;align-items:flex-start;padding:9px 14px;border-bottom:1px solid var(--line)}
+  .day:last-child{border-bottom:none}
+  .day input{margin-top:4px;accent-color:var(--ok);cursor:pointer}
+  .day .date{font-family:var(--mono);font-size:12px;color:var(--dim);min-width:76px;padding-top:1px}
+  .day .task{flex:1;font-size:14px}
+  .day.done .task{color:var(--dim);text-decoration:line-through}
+  .months{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .mcard{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .mcard .ml{font-family:var(--mono);font-size:12px;color:var(--accent)}
+  .mcard .mt{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* progress */
+  .proglog{border-left:2px solid var(--line);margin-left:6px;padding-left:18px}
+  .plog{position:relative;padding:6px 0 14px}
+  .plog::before{content:"";position:absolute;left:-24px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+  .plog .pd{font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .plog .pt{font-size:14px;color:var(--ink)}
+
+  .note{font-size:13px;color:var(--muted);border-left:2px solid var(--accent);padding-left:12px;margin:12px 0}
+  .dim{color:var(--dim)}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  @media (prefers-reduced-motion:no-preference){ .stat .val, .offer .amt{transition:color .2s} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="nav" style="display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:14px"><span><a href="./" style="color:var(--dim)">← Home</a> · Build Log · Live Business Plan</span><span><a href="research.html">Research →</a></span></div>
+    <h1 id="bizName"></h1>
+    <div class="phase" id="phase"></div>
+    <div class="updated">Last updated: <span id="updated"></span></div>
+  </header>
+
+  <div class="statusgrid" id="statusgrid"></div>
+
+  <section id="business">
+    <h2>01 · The Business</h2>
+    <div id="bizBody"></div>
+  </section>
+
+  <section id="offer">
+    <h2>02 · The Offer</h2>
+    <div class="offergrid" id="offergrid"></div>
+    <div id="deliverables"></div>
+  </section>
+
+  <section id="math">
+    <h2>03 · The Exact Math</h2>
+    <div class="cols">
+      <div>
+        <h3>Unit economics</h3>
+        <table id="unitTable"></table>
+        <h3>Break-even</h3>
+        <div id="breakeven"></div>
+      </div>
+      <div>
+        <h3>6-month projection</h3>
+        <table id="projTable"></table>
+        <div id="annualNote" class="note"></div>
+      </div>
+    </div>
+    <h3>Assumptions</h3>
+    <ul id="assumptions"></ul>
+    <div id="funding" class="note"></div>
+  </section>
+
+  <section id="calendar">
+    <h2>04 · Calendar — starts <span id="calStart"></span></h2>
+    <div id="weeks"></div>
+    <h3>Months 2–6</h3>
+    <div class="months" id="months"></div>
+  </section>
+
+  <section id="progress">
+    <h2>05 · Progress</h2>
+    <div class="proglog" id="proglog"></div>
+  </section>
+
+  <footer>
+    <span>LeadSetter AI — build log</span>
+    <span>Data source: <span id="footUpdated"></span> · edit data.js → commit → push → live</span>
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const money = n => "$" + n.toLocaleString("en-US");
+const fmtDate = s => { const [y,m,d]=s.split("-"); return `${y}-${m}-${d}`; };
+
+// header
+$("bizName").textContent = PLAN.business.name;
+$("phase").textContent = PLAN.phase;
+$("updated").textContent = fmtDate(PLAN.updated);
+$("calStart").textContent = PLAN.calendar.start;
+$("footUpdated").textContent = fmtDate(PLAN.updated);
+
+// status grid
+const statuses = [
+  ["Clients", PLAN.progress.metrics.clients, ""],
+  ["MRR", PLAN.progress.metrics.mrr, "/mo"],
+  ["Revenue (cum.)", PLAN.progress.metrics.revenue, ""],
+  ["Prospects contacted", PLAN.progress.metrics.prospectsContacted, ""],
+  ["Calls booked", PLAN.progress.metrics.callsBooked, ""],
+  ["Leads delivered", PLAN.progress.metrics.leadsDelivered, ""]
+];
+$("statusgrid").innerHTML = statuses.map(([l,v,s]) =>
+  `<div class="stat"><div class="lbl">${l}</div><div class="val">${money(v)}<small>${s}</small></div></div>`
+).join("");
+
+// business
+$("bizBody").innerHTML = `
+  <div class="bizname">${PLAN.business.name}</div>
+  <div class="model">${PLAN.business.model}</div>
+  <h3>Why this business</h3>
+  <ul>${PLAN.business.why.map(w=>`<li>${w}</li>`).join("")}</ul>`;
+
+// offer
+$("offergrid").innerHTML = [
+  ["Setup fee", money(PLAN.offer.setupFee), "one-time"],
+  ["Retainer", money(PLAN.offer.retainer), "/month"],
+  ["Cost to serve", money(PLAN.offer.costToServePerClient), "/client/mo"],
+  ["Gross margin", PLAN.offer.grossMarginPct + "%", ""]
+].map(([l,v,n]) => `<div class="offer"><div class="lbl">${l}</div><div class="amt">${v}<small> ${n}</small></div></div>`).join("");
+$("deliverables").innerHTML = `<h3>What the client gets</h3><ul>${PLAN.offer.deliverables.map(d=>`<li>${d}</li>`).join("")}</ul>`;
+
+// unit economics table
+const u = PLAN.math.unit;
+$("unitTable").innerHTML = `
+  <thead><tr><th>Metric</th><th class="num">Value</th></tr></thead>
+  <tbody>
+    <tr><td>Setup fee (one-time)</td><td class="num">${money(u.setupFee)}</td></tr>
+    <tr><td>Retainer</td><td class="num">${money(u.retainerMonthly)}/mo</td></tr>
+    <tr><td>Cost to serve</td><td class="num">${money(u.monthlyCostToServe)}/mo</td></tr>
+    <tr><td>Gross margin / client</td><td class="num pos">${money(u.grossMarginPerClientPerMonth)}/mo (${u.grossMarginPct}%)</td></tr>
+    <tr><td>Leads delivered</td><td class="num">${u.leadsPerClientPerMonth}/mo</td></tr>
+    <tr><td>Cost per lead</td><td class="num">${money(u.costPerLead)}</td></tr>
+  </tbody>`;
+const be = PLAN.math.breakeven;
+$("breakeven").innerHTML = `
+  <div class="note" style="border-color:var(--ok)"><strong>${be.clientsToBreakeven} client</strong> covers all fixed costs (${money(be.fixedMonthlyCosts)}/mo). ${be.note}</div>`;
+
+// projection table
+const rows = PLAN.math.projection.map(p => `
+  <tr>
+    <td>M${p.m}</td><td class="num">${p.clients}</td>
+    <td class="num">${money(p.setup)}</td><td class="num">${money(p.mrr)}</td>
+    <td class="num">${money(p.revenue)}</td><td class="num">${money(p.costs)}</td>
+    <td class="num pos">${money(p.profit)}</td>
+  </tr>`).join("");
+$("projTable").innerHTML = `
+  <thead><tr><th>Mo</th><th class="num">Clients</th><th class="num">Setup</th><th class="num">MRR</th><th class="num">Revenue</th><th class="num">Costs</th><th class="num">Profit</th></tr></thead>
+  <tbody>${rows}</tbody>`;
+$("annualNote").textContent = PLAN.math.annualNote;
+
+// assumptions + funding
+$("assumptions").innerHTML = PLAN.math.assumptions.map(a=>`<li>${a}</li>`).join("");
+$("funding").innerHTML = `<strong>Funding:</strong> ${PLAN.math.fundingRequest.needed ? "REQUESTED — see below" : "Not required."} ${PLAN.math.fundingRequest.startupCosts}`;
+
+// calendar — weeks with checkboxes (persist in localStorage, reset if data.js changes)
+const SAVE_KEY = "lsi-cal-" + PLAN.updated;
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(SAVE_KEY) || "{}"); } catch(e) {}
+$("weeks").innerHTML = PLAN.calendar.weeks.map((w,wi) => `
+  <div class="week">
+    <div class="weekhead"><span class="w">Week ${w.week}</span><span class="t">${w.theme}</span><span class="d">${w.dates}</span></div>
+    ${w.days.map((day,di) => {
+      const key = `${wi}-${di}`;
+      const done = saved[key] ?? day.done;
+      return `<div class="day ${done ? "done":""}" id="day-${key}">
+        <input type="checkbox" data-key="${key}" ${done?"checked":""}>
+        <span class="date">${day.d}</span><span class="task">${day.task}</span>
+      </div>`;
+    }).join("")}
+  </div>`).join("");
+
+document.querySelectorAll(".day input").forEach(cb => cb.addEventListener("change", () => {
+  const key = cb.dataset.key;
+  saved[key] = cb.checked;
+  localStorage.setItem(SAVE_KEY, JSON.stringify(saved));
+  document.getElementById("day-" + key).classList.toggle("done", cb.checked);
+}));
+
+$("months").innerHTML = PLAN.calendar.months.map(m =>
+  `<div class="mcard"><div class="ml">${m.m}</div><div class="mt">${m.theme}</div></div>`).join("");
+
+// progress log
+$("proglog").innerHTML = [...PLAN.progress.log].reverse().map(e =>
+  `<div class="plog"><div class="pd">${e.date}</div><div class="pt">${e.text}</div></div>`).join("");
+</script>
+</body>
+</html>
