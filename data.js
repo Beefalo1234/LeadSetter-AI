@@ -8,7 +8,7 @@ const PLAN = {
   phase: "Execution starts 2026-08-08 — pricing v2: $149/mo + $20/lead, NO setup fee",
   business: {
     name: "LeadSetter AI — appointment-setting & lead-gen for home-service businesses",
-    model: "Done-for-you AI appointment setting as a subscription service. We find, qualify, and book appointments for home-service businesses (HVAC, roofing, solar, remodeling) using AI voice + follow-up automation.",
+    model: "Done-for-you AI appointment setting + bundled local marketing as a subscription. AI answers missed calls in ~2s 24/7 and books appointments; bundles add Google Maps/GBP optimization, website management, and review generation. Tiers: Starter $149/mo, Growth $249/mo, Dominate $349/mo + $20/qualified lead.",
     why: [
       "Observed pricing from research: lead-gen/outreach services sell at EUR 300–800/mo per client (KEqhu_bAjkk), $1–5K setup + $500–2K/mo maintenance (FAR_Fr87gm0), and $4–5K/mo × 17–21 clients ≈ $1M ARR (GkHwnQdoDpM).",
       "Each booked job for these niches is worth $500–$5,000 to the client — paying ~$20/qualified lead for 3–5 extra booked jobs is an easy yes.",
@@ -18,8 +18,13 @@ const PLAN = {
   },
   offer: {
     setupFee: 0,             // USD, one-time — intentionally $0 (low friction, new business)
-    retainer: 149,           // USD / month — platform base
+    retainer: 149,           // USD / month — Starter tier base
     perLead: 20,             // USD / qualified appointment lead
+    tiers: [
+      { name: "Starter", price: 149, services: "AI appointment setting", note: "+ $20/qualified lead" },
+      { name: "Growth", price: 249, services: "AI + Google Maps/GBP optimization", note: "37% off standalone ($398)" },
+      { name: "Dominate", price: 349, services: "AI + GBP + website mgmt + review gen (free)", note: "30% off standalone ($497+)" }
+    ],
     deliverables: [
       "30 qualified leads/mo (name, contact, source, signal) — $20/lead",
       "AI answers missed calls in ~2 seconds, 24/7, books into their calendar",
@@ -135,7 +140,8 @@ const PLAN = {
     lastUpdated: "2026-08-08",
     log: [
       { date: "2026-08-07", text: "Plan built: niche, offer, exact math, 4-week day-by-day calendar. Dashboard deployed." },
-      { date: "2026-08-08", text: "Pricing v2: $0 setup, $149/mo + $20/lead. Prospect list built (12.8K NYC HIC contractors). Call scripts rewritten (Claude Sonnet 5). Short-form ad scripts drafted." }
+      { date: "2026-08-08", text: "Pricing v2: $0 setup, $149/mo + $20/lead. Prospect list built (12.8K NYC HIC contractors). Call scripts rewritten (Claude Sonnet 5). Short-form ad scripts drafted." },
+      { date: "2026-08-08", text: "Pricing v3: bundle tiers — Starter $149, Growth $249 (AI+GBP), Dominate $349 (AI+GBP+website+reviews), all + $20/lead. Competitor pricing verified (8 sources) for comparison table." }
     ],
     metrics: { clients: 0, mrr: 0, revenue: 0, prospectsContacted: 0, callsBooked: 0, leadsDelivered: 0 }
   }
