@@ -144,7 +144,8 @@ const PLAN = {
       { date: "2026-08-08", text: "Pricing v2: $0 setup, $149/mo + $20/lead. Prospect list built (12.8K NYC HIC contractors). Call scripts rewritten (Claude Sonnet 5). Short-form ad scripts drafted." },
       { date: "2026-08-08", text: "Pricing v3: bundle tiers — Starter $149, Growth $249 (AI+GBP), Dominate $349 (AI+GBP+website+reviews), all + $20/lead. Competitor pricing verified (8 sources) for comparison table." },
       { date: "2026-08-08", text: "Pricing v4 (launch): 9 services at $49–99/mo, any 3+ = 40% off. Full stack $355/mo vs $1,600–6,500 market. Ultra-aggressive until footing." },
-      { date: "2026-08-08", text: "Pricing v5: services $20–80, any 3+ = 50% off. Bundles: Starter $60, Advertising $110, Local Domination $110, Full Stack $200 clean (vs $1,600–6,500 market)." }
+      { date: "2026-08-08", text: "Pricing v5: services $20–80, any 3+ = 50% off. Bundles: Starter $60, Advertising $110, Local Domination $110, Full Stack $200 clean (vs $1,600–6,500 market)." },
+      { date: "2026-08-08", text: "LANDING PAGE LIVE: hero + profit calculator + 50% bundles + us-vs-them table. All 12 claims verified (FTC, vendor pages, benchmarks). Claude briefed strategy; Gemini verified; DeepSeek built." }
     ],
     metrics: { clients: 0, mrr: 0, revenue: 0, prospectsContacted: 0, callsBooked: 0, leadsDelivered: 0 }
   }
