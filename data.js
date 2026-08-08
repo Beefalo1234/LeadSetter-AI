@@ -5,10 +5,10 @@
 
 const PLAN = {
   updated: "2026-08-08",
-  phase: "Execution starts 2026-08-08 — pricing v2: $149/mo + $20/lead, NO setup fee",
+  phase: "Execution starts 2026-08-08 — pricing v4 (launch): from $99/mo, 3+ services = 40% off",
   business: {
     name: "LeadSetter AI — appointment-setting & lead-gen for home-service businesses",
-    model: "Done-for-you AI appointment setting + bundled local marketing as a subscription. AI answers missed calls in ~2s 24/7 and books appointments; bundles add Google Maps/GBP optimization, website management, and review generation. Tiers: Starter $149/mo, Growth $249/mo, Dominate $349/mo + $20/qualified lead.",
+    model: "Done-for-you AI appointment setting + 8 bundled local-marketing services. AI answers missed calls in ~2s 24/7 and books appointments; bundles add Google Maps/GBP optimization, website management, reviews, SMS, email, social, citations, call tracking. All services $49–99/mo; 3+ services = 40% off. + $20/qualified lead. Launch pricing until footing.",
     why: [
       "Observed pricing from research: lead-gen/outreach services sell at EUR 300–800/mo per client (KEqhu_bAjkk), $1–5K setup + $500–2K/mo maintenance (FAR_Fr87gm0), and $4–5K/mo × 17–21 clients ≈ $1M ARR (GkHwnQdoDpM).",
       "Each booked job for these niches is worth $500–$5,000 to the client — paying ~$20/qualified lead for 3–5 extra booked jobs is an easy yes.",
@@ -18,12 +18,12 @@ const PLAN = {
   },
   offer: {
     setupFee: 0,             // USD, one-time — intentionally $0 (low friction, new business)
-    retainer: 149,           // USD / month — Starter tier base
+    retainer: 99,            // USD / month — Starter (AI appointment setting)
     perLead: 20,             // USD / qualified appointment lead
     tiers: [
-      { name: "Starter", price: 149, services: "AI appointment setting", note: "+ $20/qualified lead" },
-      { name: "Growth", price: 249, services: "AI + Google Maps/GBP optimization", note: "37% off standalone ($398)" },
-      { name: "Dominate", price: 349, services: "AI + GBP + website mgmt + review gen (free)", note: "30% off standalone ($497+)" }
+      { name: "Starter", price: 99, services: "AI appointment setting", note: "+ $20/qualified lead" },
+      { name: "Growth", price: 148, services: "Any 3 services (AI + GBP + website)", note: "40% off: $247 → $148" },
+      { name: "Dominate", price: 355, services: "All 9 services (full stack)", note: "40% off: $591 → $355" }
     ],
     deliverables: [
       "30 qualified leads/mo (name, contact, source, signal) — $20/lead",
@@ -141,7 +141,8 @@ const PLAN = {
     log: [
       { date: "2026-08-07", text: "Plan built: niche, offer, exact math, 4-week day-by-day calendar. Dashboard deployed." },
       { date: "2026-08-08", text: "Pricing v2: $0 setup, $149/mo + $20/lead. Prospect list built (12.8K NYC HIC contractors). Call scripts rewritten (Claude Sonnet 5). Short-form ad scripts drafted." },
-      { date: "2026-08-08", text: "Pricing v3: bundle tiers — Starter $149, Growth $249 (AI+GBP), Dominate $349 (AI+GBP+website+reviews), all + $20/lead. Competitor pricing verified (8 sources) for comparison table." }
+      { date: "2026-08-08", text: "Pricing v3: bundle tiers — Starter $149, Growth $249 (AI+GBP), Dominate $349 (AI+GBP+website+reviews), all + $20/lead. Competitor pricing verified (8 sources) for comparison table." },
+      { date: "2026-08-08", text: "Pricing v4 (launch): 9 services at $49–99/mo, any 3+ = 40% off. Full stack $355/mo vs $1,600–6,500 market. Ultra-aggressive until footing." }
     ],
     metrics: { clients: 0, mrr: 0, revenue: 0, prospectsContacted: 0, callsBooked: 0, leadsDelivered: 0 }
   }
