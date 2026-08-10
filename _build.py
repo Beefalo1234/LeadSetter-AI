@@ -13,7 +13,7 @@ HEAD = """<!DOCTYPE html>
 <body>
 <canvas id="particles"></canvas>
 <div class="orb orb-g"></div><div class="orb orb-b"></div><div class="orb orb-g2"></div>
-<div class="launchbar"><span class="pulse"></span><b>LAUNCH PRICING:</b> any 3+ services <b>50% OFF</b> at checkout · FULL STACK — all 9 services — <b>$200/mo</b> · <b>$0 setup</b> · <a href="pricing.html">pick your plan →</a></div>
+<div class="launchbar"><span class="pulse"></span><b>LOCK-IN PRICING:</b> any 3+ services <b>50% OFF</b> at checkout · FULL STACK — all 9 services — <b>$200/mo</b> · <b>$0 setup</b> · <b>14-day refund</b> · <a href="pricing.html">pick your plan →</a></div>
 <nav><div class="wrap">
   <div class="logo">LeadSetter<span>AI</span></div>
   <div style="display:flex;align-items:center;flex-wrap:wrap">
@@ -37,7 +37,7 @@ FOOT = """
     <div>
       <a href="pricing.html">Pricing</a> · <a href="how-it-works.html">How It Works</a> · <a href="compare.html">Compare</a> · <a href="faq.html">FAQ</a> · <a href="build-log.html">Build Log</a> · <a href="research.html">Research</a>
     </div>
-    <div class="comp">© 2026 LeadSetter AI · FCC-compliant: we only contact homeowners who asked to be contacted. Competitor prices are public 2026 ranges — verify your own numbers before switching. Results vary by market &amp; effort.</div>
+    <div class="comp">© 2026 LeadSetter AI · FCC-compliant: we only contact homeowners who asked to be contacted. Every plan: $0 setup, no contract, 14-day refund on plans (à la carte $20 add-ons are month-to-month). Competitor prices are public 2026 ranges — verify your own numbers before switching. Results vary by market &amp; effort.</div>
   </div>
 </footer>
 <script src="js/site.js"></script>
@@ -57,14 +57,14 @@ def page(fname, title, desc, body, active="", body_script=""):
 
 CTA = """
 <section class="cta-final" id="cta"><div class="wrap">
-  <div class="kicker reveal">Launch pricing — lock it in</div>
+  <div class="kicker reveal">Lock it in</div>
   <h2 class="reveal">Any 3+ services = <span class="grad">50% off.</span> Full Stack, $200.</h2>
-  <p>Checkout takes 60 seconds. $0 setup, cancel anytime, and you only pay the $20/lead for leads actually delivered.</p>
+  <p>Checkout takes 60 seconds. $0 setup, cancel anytime, 14-day refund on every plan — and you only pay the $20/lead for leads actually delivered.</p>
   <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
     <a class="btn btn-gold" href="pricing.html">See Plans + Checkout →</a>
     <a class="btn btn-ghost" href="faq.html#contact">Questions? Talk to us</a>
   </div>
-  <p class="trustline mono" style="color:var(--dim);margin-top:18px">LAUNCH PRICING — any 3+ services 50% OFF · Full Stack $200/mo · $0 setup · cancel anytime</p>
+  <p class="trustline mono" style="color:var(--dim);margin-top:18px">$0 setup · cancel anytime · <b>14-day refund</b> · any 3+ services 50% OFF · Full Stack $200/mo</p>
 </div></section>
 """
 
@@ -81,7 +81,7 @@ home = """
       <a class="btn btn-gold" href="pricing.html">Get 50% Off — See Plans →</a>
       <a class="btn btn-ghost" href="how-it-works.html">How We Get Leads</a>
     </div>
-    <div class="trustline">$20 per qualified lead · <b>$0 setup</b> · no contract · you own every lead</div>
+    <div class="trustline">$20 per qualified lead · <b>$0 setup</b> · no contract · <b>14-day refund</b> · you own every lead</div>
     <div class="floaters">
       <div class="fcard fc1"><div class="n">2 SEC</div><div class="l">AI answers every call</div></div>
       <div class="fcard fc2"><div class="n">24/7</div><div class="l">weekends &amp; holidays</div></div>
@@ -97,6 +97,8 @@ home = """
   <div class="stat"><div class="v"><span class="cnt" data-to="20" data-prefix="$">0</span></div><div class="l">per qualified lead (vs $45–228 Google)</div></div>
   <div class="stat"><div class="v"><span class="cnt" data-to="9">0</span></div><div class="l">services in the Full Stack</div></div>
   <div class="stat"><div class="v">$0</div><div class="l">setup fee — cancel anytime</div></div>
+  <div class="stat"><div class="v">14</div><div class="l">day refund — no forms, no fights</div></div>
+  <div class="stat"><div class="v">65%</div><div class="l">cheaper than Angi's $300+/mo plans</div></div>
 </div></div></section>
 
 <section class="enemy" id="enemy"><div class="wrap">
@@ -116,10 +118,26 @@ home = """
   <div class="kicker reveal">How it works</div>
   <h2 class="reveal">Three steps. Five days. Done.</h2>
   <p class="sub reveal">No software to learn. No dashboards to babysit. We build it, launch it, and run it. <a href="how-it-works.html">See exactly how we get your leads →</a></p>
-  <div class="steps reveal">
-    <div class="step"><div class="num">STEP 01</div><h3>We plug in</h3><p>We point our AI at your business number, calendar, and Google profile. You approve the setup — that's your whole job.</p></div>
-    <div class="step"><div class="num">STEP 02</div><h3>AI answers everything</h3><p>Missed calls, after-hours calls, weekend calls, form fills — answered in ~2 seconds. Qualified, booked, confirmed by text.</p></div>
-    <div class="step"><div class="num">STEP 03</div><h3>You show up and get paid</h3><p>Booked appointments land in your calendar with context. You close the job. We send the ROI report.</p></div>
+  <div class="picker reveal" id="svcPicker">
+    <button class="pick-arrow" id="pickPrev" aria-label="Previous service">‹</button>
+    <div class="pick-pills" id="pickPills">
+      <button class="pill" data-svc="ai">AI Answering</button>
+      <button class="pill" data-svc="gbp">Google Maps</button>
+      <button class="pill" data-svc="social">Social Media</button>
+      <button class="pill" data-svc="reviews">Reviews</button>
+      <button class="pill" data-svc="website">Website</button>
+      <button class="pill" data-svc="sms">SMS</button>
+      <button class="pill" data-svc="email">Email</button>
+      <button class="pill" data-svc="citations">Listings</button>
+      <button class="pill" data-svc="tracking">Call Tracking</button>
+    </div>
+    <button class="pick-arrow" id="pickNext" aria-label="Next service">›</button>
+    <div class="pick-dots" id="pickDots"></div>
+  </div>
+  <div class="steps reveal" id="flowSteps">
+    <div class="step"><div class="num">STEP 01</div><h3 class="fs-t1">We plug in</h3><p class="fs-p1">We point our AI at your business number, calendar, and Google profile. You approve the setup — that's your whole job.</p></div>
+    <div class="step"><div class="num">STEP 02</div><h3 class="fs-t2">AI answers everything</h3><p class="fs-p2">Missed calls, after-hours calls, weekend calls, form fills — answered in ~2 seconds. Qualified, booked, confirmed by text.</p></div>
+    <div class="step"><div class="num">STEP 03</div><h3 class="fs-t3">You show up and get paid</h3><p class="fs-p3">Booked appointments land in your calendar with context. You close the job. We send the ROI report.</p></div>
   </div>
 </div></section>
 
@@ -144,22 +162,22 @@ page("index.html", "LeadSetter AI — Never Miss a Job Again | AI Appointment Se
 # ══════════════════════════════════════════════════════════════════
 pricing = """
 <section class="page-head"><div class="wrap">
-  <div class="kicker reveal">Pricing — launch window</div>
-  <h1 class="reveal">Enterprise infrastructure. <span class="grad">Contractor pricing.</span></h1>
-  <p class="sub reveal">Secure checkout below. Every plan: <b>$0 setup · no contract · cancel anytime</b> — you only pay the $20/lead for leads actually delivered.</p>
+  <div class="kicker reveal">Pricing — built lean, priced fair</div>
+  <h1 class="reveal">Enterprise-level features. <span class="grad">Contractor-sized prices.</span></h1>
+  <p class="sub reveal">Secure checkout below. Every plan: <b>$0 setup · no contract · 14-day refund · cancel anytime</b> — you only pay the $20/lead for leads actually delivered.</p>
 </div></section>
 
 <section id="plans"><div class="wrap">
   <div class="rule-banner reveal">
     <div class="big">Any 3+ services → 50% OFF, applied automatically at checkout.</div>
-    <p>Every service is $20–80/mo. Stack three or more and the discount applies instantly on your card. $0 setup. Cancel anytime. Launch pricing — it goes up.</p>
+    <p>Every service is $20–60/mo. Stack three or more and the discount applies instantly on your card. $0 setup. 14-day refund on plans. Cancel anytime.</p>
   </div>
   <div class="tiers reveal">
     <div class="tier">
       <div class="tname">Starter Bundle</div>
       <div class="tprice">$60<small>/mo</small></div>
-      <div class="was">menu $120</div>
-      <div class="save">YOU SAVE $60/mo</div>
+      <div class="was">menu $100</div>
+      <div class="save">YOU SAVE $40/mo</div>
       <ul>
         <li>AI appointment setting</li>
         <li>Call tracking &amp; ROI reports</li>
@@ -171,8 +189,8 @@ pricing = """
     <div class="tier">
       <div class="tname">Advertising Bundle</div>
       <div class="tprice">$110<small>/mo</small></div>
-      <div class="was">menu $220</div>
-      <div class="save">YOU SAVE $110/mo</div>
+      <div class="was">menu $180</div>
+      <div class="save">YOU SAVE $70/mo</div>
       <ul>
         <li>AI appointment setting</li>
         <li>Social media management</li>
@@ -186,8 +204,8 @@ pricing = """
     <div class="tier">
       <div class="tname">Local Domination</div>
       <div class="tprice">$110<small>/mo</small></div>
-      <div class="was">menu $220</div>
-      <div class="save">YOU SAVE $110/mo</div>
+      <div class="was">menu $180</div>
+      <div class="save">YOU SAVE $70/mo</div>
       <ul>
         <li>Google Maps / GBP optimization</li>
         <li>Review generation</li>
@@ -202,8 +220,8 @@ pricing = """
       <div class="badgehot">MOST VALUE</div>
       <div class="tname">Full Stack</div>
       <div class="tprice">$200<small>/mo</small></div>
-      <div class="was">menu $360</div>
-      <div class="save">YOU SAVE $160/mo</div>
+      <div class="was">menu $300</div>
+      <div class="save">YOU SAVE $100/mo</div>
       <ul>
         <li>All 9 services</li>
         <li>AI appointment setting + $20/lead</li>
@@ -213,20 +231,42 @@ pricing = """
       <a class="btn btn-gold" href="checkout.html?bundle=full-stack">Checkout → Everything. $200.</a>
     </div>
   </div>
-  <p class="leadnote">Every plan: <b>$0 setup · no contract · cancel anytime</b> — and you only pay the $20/lead <b>for leads actually delivered</b>.</p>
+  <p class="leadnote">Every plan: <b>$0 setup · no contract · 14-day refund · cancel anytime</b> — and you only pay the $20/lead <b>for leads actually delivered</b>.</p>
 
   <div class="services reveal">
     <h3>À la carte — all 9 services <span style="color:var(--green);font-family:var(--mono);font-size:13px">(add 3+ → each is 50% off)</span></h3>
     <div class="sgrid">
-      <div class="svc"><span class="sn">AI Appointment Setting</span><div class="sprice"><span class="sp">$80/mo + $20/lead</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=ai">Buy</a></div>
-      <div class="svc"><span class="sn">Google Maps / GBP Optimization</span><div class="sprice"><span class="sp">$80/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=gbp">Buy</a></div>
-      <div class="svc"><span class="sn">Social Media Management</span><div class="sprice"><span class="sp">$80/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=social">Buy</a></div>
+      <div class="svc"><span class="sn">AI Appointment Setting</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo + $20/lead</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=ai">Buy</a></div>
+      <div class="svc"><span class="sn">Google Maps Optimization</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=gbp">Buy</a></div>
+      <div class="svc"><span class="sn">Social Media Management</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=social">Buy</a></div>
       <div class="svc"><span class="sn">Review Generation</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=reviews">Buy</a></div>
       <div class="svc"><span class="sn">Website Management</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=website">Buy</a></div>
       <div class="svc"><span class="sn">SMS Marketing</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=sms">Buy</a></div>
       <div class="svc"><span class="sn">Email Marketing / Newsletter</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=email">Buy</a></div>
-      <div class="svc"><span class="sn">Citations &amp; Directories</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=citations">Buy</a></div>
+      <div class="svc"><span class="sn">Listings &amp; Directories (Yelp, BBB…)</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=citations">Buy</a></div>
       <div class="svc"><span class="sn">Call Tracking &amp; ROI Reports</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=tracking">Buy</a></div>
+    </div>
+  </div>
+
+  <div class="builder reveal" id="builder">
+    <div class="kicker">Build your own plan</div>
+    <h3>Tap the services you want. <span class="grad">We do the math.</span></h3>
+    <p class="sub" style="margin-top:6px">Stack 3+ and every service drops 50% — then combo discounts stack on top. Total, savings, and projected ROI update as you tap.</p>
+    <div class="builder-grid" id="builderGrid"></div>
+    <div class="builder-out" id="builderOut" hidden>
+      <div class="b-summary">
+        <div class="b-row"><span class="k">Services picked</span><span class="v" id="bList">—</span></div>
+        <div class="b-row"><span class="k">Menu price</span><span class="v" id="bMenu">—</span></div>
+        <div class="b-row" id="bHalfRow" hidden><span class="k">3+ services → 50% OFF</span><span class="v good" id="bHalf">—</span></div>
+        <div class="b-row" id="bComboRow" hidden><span class="k">Combo discounts</span><span class="v good" id="bCombo">—</span></div>
+        <div class="b-row total"><span class="k">Your monthly price</span><span class="v gold" id="bTotal">—</span></div>
+        <div class="b-row"><span class="k">Estimated ROI</span><span class="v good" id="bRoi">—</span></div>
+        <div class="b-badges" id="bBadges"></div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-gold" id="bCheckout" href="#">Checkout This Plan →</a>
+        <span class="mono" style="font-size:12px;color:var(--dim);align-self:center">$0 setup · cancel anytime · 14-day refund</span>
+      </div>
     </div>
   </div>
 </div></section>
@@ -260,7 +300,7 @@ pricing = """
 
 page("pricing.html", "Pricing — 50% Off Bundles & Full Stack $200 | LeadSetter AI",
      "Any 3+ services 50% off at checkout. Starter $60, Advertising $110, Local Domination $110, Full Stack $200. Secure checkout, $0 setup, cancel anytime.",
-     pricing, active="PRICING")
+     pricing, active="PRICING", body_script='<script src="js/builder.js"></script>')
 
 # ══════════════════════════════════════════════════════════════════
 # 3. HOW IT WORKS
@@ -273,10 +313,27 @@ how = """
 </div></section>
 
 <section><div class="wrap">
-  <div class="steps reveal">
-    <div class="step"><div class="num">STEP 01</div><h3>We plug in</h3><p>We point our AI at your business number, calendar, and Google profile. You approve the setup — that's your whole job.</p></div>
-    <div class="step"><div class="num">STEP 02</div><h3>AI answers everything</h3><p>Missed calls, after-hours calls, weekend calls, form fills — answered in ~2 seconds. Qualified, booked, confirmed by text.</p></div>
-    <div class="step"><div class="num">STEP 03</div><h3>You show up and get paid</h3><p>Booked appointments land in your calendar with context. You close the job. We send the ROI report.</p></div>
+  <div class="kicker reveal">Pick a service — see its flow</div>
+  <div class="picker reveal" id="svcPicker">
+    <button class="pick-arrow" id="pickPrev" aria-label="Previous service">‹</button>
+    <div class="pick-pills" id="pickPills">
+      <button class="pill" data-svc="ai">AI Answering</button>
+      <button class="pill" data-svc="gbp">Google Maps</button>
+      <button class="pill" data-svc="social">Social Media</button>
+      <button class="pill" data-svc="reviews">Reviews</button>
+      <button class="pill" data-svc="website">Website</button>
+      <button class="pill" data-svc="sms">SMS</button>
+      <button class="pill" data-svc="email">Email</button>
+      <button class="pill" data-svc="citations">Listings</button>
+      <button class="pill" data-svc="tracking">Call Tracking</button>
+    </div>
+    <button class="pick-arrow" id="pickNext" aria-label="Next service">›</button>
+    <div class="pick-dots" id="pickDots"></div>
+  </div>
+  <div class="steps reveal" id="flowSteps">
+    <div class="step"><div class="num">STEP 01</div><h3 class="fs-t1">We plug in</h3><p class="fs-p1">We point our AI at your business number, calendar, and Google profile. You approve the setup — that's your whole job.</p></div>
+    <div class="step"><div class="num">STEP 02</div><h3 class="fs-t2">AI answers everything</h3><p class="fs-p2">Missed calls, after-hours calls, weekend calls, form fills — answered in ~2 seconds. Qualified, booked, confirmed by text.</p></div>
+    <div class="step"><div class="num">STEP 03</div><h3 class="fs-t3">You show up and get paid</h3><p class="fs-p3">Booked appointments land in your calendar with context. You close the job. We send the ROI report.</p></div>
   </div>
 </div></section>
 
@@ -369,7 +426,23 @@ compare = """
       </tbody>
     </table>
   </div>
-  <p class="small-print">Sources: Angi/HomeAdvisor, Thumbtack, Yelp, Smith.ai, GoHighLevel pricing pages + Searchlight Digital &amp; Tradesmen Guild benchmarks, checked 2026-08. Individual results vary; numbers are market ranges, not guarantees.</p>
+  <p class="small-print">Sources: Angi/HomeAdvisor, Thumbtack, Yelp, Smith.ai, GoHighLevel, Podium, Ruby, AnswerConnect pricing pages + Searchlight Digital &amp; Tradesmen Guild benchmarks, checked 2026-08. Individual results vary; numbers are market ranges, not guarantees.</p>
+  <div class="rest-table reveal" style="margin-top:34px">
+    <h3>The rest of the market, in one glance</h3>
+    <div class="vstable" style="margin-top:14px">
+    <table class="vs">
+      <thead><tr><th>Competitor</th><th>What you get</th><th>Their cost</th><th>Why we win</th></tr></thead>
+      <tbody>
+        <tr><td class="feat">Yelp Ads</td><td>Paid placement above reviews; leads shared across advertisers</td><td><span class="pill p-bad">$300+/mo</span></td><td class="us usrow-hl">Exclusive leads, $60–200 flat, AI answers</td></tr>
+        <tr><td class="feat">Google Local Services</td><td>"Google Guaranteed" badge calls from search</td><td><span class="pill p-bad">$45–228/lead</span></td><td class="us usrow-hl">$20 per lead — 2–4x cheaper</td></tr>
+        <tr><td class="feat">Podium / Broadly</td><td>Self-serve software that replies to your missed calls &amp; texts</td><td><span class="pill p-bad">$300–500/mo</span></td><td class="us usrow-hl">Done for you — we build it, run it</td></tr>
+        <tr><td class="feat">Smith.ai / Ruby</td><td>Human receptionists answer your forwarded calls</td><td><span class="pill p-bad">$240–2,100/mo</span></td><td class="us usrow-hl">AI answers 24/7 for $60–200 flat</td></tr>
+        <tr><td class="feat">Marketing agencies</td><td>Monthly retainer, they run ads + SEO for you</td><td><span class="pill p-bad">$500–5,000/mo + ad spend</span></td><td class="us usrow-hl">Same work, slimmer margins, $200 Full Stack</td></tr>
+        <tr><td class="feat">DIY tools (GHL, etc.)</td><td>Software you set up and babysit yourself</td><td><span class="pill p-mid">$97–497/mo</span></td><td class="us usrow-hl">You skip the months of learning</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
 </div></section>
 
 <section id="guarantee"><div class="wrap">
@@ -401,7 +474,8 @@ faq = """
   <div class="faq reveal">
     <div class="fitem"><button class="fq">Is this legal? Won't homeowners hate an AI answering?<span class="chev">▾</span></button><div class="fa"><p>We're FCC-compliant by design: we only contact homeowners who already reached out — missed calls, form fills, opted-in texts. Homeowners don't care who picks up — they care that someone picks up in 2 seconds instead of voicemail. The AI books the appointment; you close the job.</p></div></div>
     <div class="fitem"><button class="fq">I'm not technical. Will I have to learn software?<span class="chev">▾</span></button><div class="fa"><p>Zero. We build everything — AI agent, calendar sync, texts, reporting — and launch it in about 5 days. Your only job is to approve the setup and show up for the booked appointments.</p></div></div>
-    <div class="fitem"><button class="fq">Why is it so cheap compared to agencies?<span class="chev">▾</span></button><div class="fa"><p>Because AI does the grunt work that agencies bill $2,500+/mo for. You pay for results — $20 per delivered lead — not for account-manager overhead. And yes, this is launch pricing. It goes up.</p></div></div>
+    <div class="fitem"><button class="fq">Why is it so cheap compared to agencies?<span class="chev">▾</span></button><div class="fa"><p>Because we run on AI and automation instead of account-manager overhead, we operate on slimmer margins than traditional agencies — we don't need $2,500/mo to make a client profitable. We pass that saving to you: $20 per delivered lead, not per hour of "management." Cheaper for you because it costs us less to run — not because it's a temporary deal.</p></div></div>
+    <div class="fitem"><button class="fq">What's the 14-day refund?<span class="chev">▾</span></button><div class="fa"><p>Every plan (Starter, Advertising, Local Domination, Full Stack, and any custom plan) comes with a 14-day refund: if we don't deliver booked appointments in your first two weeks, you get your money back — no forms, no fights. The $20 à la carte add-ons are month-to-month, so there's nothing to refund — you just cancel. That's the whole deal: $0 setup, no contract, 14-day refund, cancel anytime.</p></div></div>
     <div class="fitem"><button class="fq">What counts as a "qualified lead"?<span class="chev">▾</span></button><div class="fa"><p>A homeowner who called or submitted a request about your actual service, got qualified by the AI (real need, real contact info, ready to book), and an appointment was booked or attempted within your service area. No tire-kickers, no lead resale, no mystery data.</p></div></div>
     <div class="fitem"><button class="fq">What if I already have a receptionist?<span class="chev">▾</span></button><div class="fa"><p>Perfect — the AI is your after-hours, weekend, and overflow backup. It answers when she can't, books into the same calendar, and confirms every appointment. Contractors with receptionists typically see the biggest lift from missed-call capture.</p></div></div>
     <div class="fitem"><button class="fq">Can I start with just the AI and add services later?<span class="chev">▾</span></button><div class="fa"><p>Yes — that's the whole point. Start with the Starter bundle at $60, watch booked appointments land for two weeks, then stack the services that move your business. The 50% bundle discount applies the moment you hit three.</p></div></div>
@@ -409,7 +483,7 @@ faq = """
   </div>
 </div></section>
 
-<section id="contact"><div class="wrap">
+<section id="contact" style="margin-top:70px"><div class="wrap">
   <div class="contact-card reveal">
     <div class="kicker">Prefer to talk it through?</div>
     <div class="big">One call. Five minutes.</div>
@@ -454,7 +528,7 @@ checkout = """
       </div>
       <div class="redirect-note" id="redirectNote"></div>
     </div>
-    <p class="leadnote" style="margin-top:30px">Every plan: <b>$0 setup · no contract · cancel anytime</b> · $20/lead only for leads actually delivered.</p>
+    <p class="leadnote" style="margin-top:30px">Every plan: <b>$0 setup · no contract · 14-day refund · cancel anytime</b> · $20/lead only for leads actually delivered.</p>
   </div>
 </div></section>
 """
