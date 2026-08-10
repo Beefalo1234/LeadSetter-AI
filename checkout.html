@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — LeadSetter AI</title>
+<meta name="description" content="Secure checkout for LeadSetter AI plans. Stripe-powered, $0 setup, cancel anytime.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="orb orb-g"></div><div class="orb orb-b"></div><div class="orb orb-g2"></div>
+<div class="launchbar"><span class="pulse"></span><b>LAUNCH PRICING:</b> any 3+ services <b>50% OFF</b> at checkout · FULL STACK — all 9 services — <b>$200/mo</b> · <b>$0 setup</b> · <a href="pricing.html">pick your plan →</a></div>
+<nav><div class="wrap">
+  <div class="logo">LeadSetter<span>AI</span></div>
+  <div style="display:flex;align-items:center;flex-wrap:wrap">
+    <a class="navl" href="index.html">Home</a>
+    <a class="navl" href="pricing.html">Pricing</a>
+    <a class="navl" href="how-it-works.html">How It Works</a>
+    <a class="navl" href="compare.html">Compare</a>
+    <a class="navl" href="faq.html">FAQ</a>
+    <a class="btn btn-gold cta-mini" href="pricing.html">Get 50% Off →</a>
+  </div>
+</div></nav>
+
+<section class="page-head"><div class="wrap">
+  <div class="kicker reveal">Secure checkout</div>
+  <h1 class="reveal">You're <span class="grad">two taps</span> from never missing a call.</h1>
+</div></section>
+
+<section><div class="wrap">
+  <div class="checkout-wrap">
+    <div class="plan-card reveal" id="planCard">
+      <div class="plan-name" id="planName">—</div>
+      <div class="plan-price" id="planPrice">—</div>
+      <div class="plan-note" id="planNote"></div>
+      <ul id="planFeatures"></ul>
+      <a class="btn btn-gold" id="checkoutBtn" href="#">Secure Checkout →</a>
+      <div class="secure-line">🔒 256-bit encrypted · Stripe checkout · recurring, cancel anytime</div>
+      <div class="fallback" id="fallback" style="display:none">
+        <div>Checkout for this plan is being activated — it takes one tap from us to switch on. Meanwhile:</div>
+        <div style="margin-top:14px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-ghost small" href="mailto:hello@leadsetter.ai?subject=Checkout%20-%20PLAN">Email to lock your discount</a>
+          <a class="btn btn-ghost small" href="tel:+19145550123">Call (914) 555-0123</a>
+        </div>
+      </div>
+      <div class="redirect-note" id="redirectNote"></div>
+    </div>
+    <p class="leadnote" style="margin-top:30px">Every plan: <b>$0 setup · no contract · cancel anytime</b> · $20/lead only for leads actually delivered.</p>
+  </div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="font-size:17px">LeadSetter<span>AI</span></div>
+      <div style="margin-top:10px">Mamaroneck, NY · <a href="mailto:hello@leadsetter.ai">hello@leadsetter.ai</a> · <a href="tel:+19145550123">(914) 555-0123</a></div>
+    </div>
+    <div>
+      <a href="pricing.html">Pricing</a> · <a href="how-it-works.html">How It Works</a> · <a href="compare.html">Compare</a> · <a href="faq.html">FAQ</a> · <a href="build-log.html">Build Log</a> · <a href="research.html">Research</a>
+    </div>
+    <div class="comp">© 2026 LeadSetter AI · FCC-compliant: we only contact homeowners who asked to be contacted. Competitor prices are public 2026 ranges — verify your own numbers before switching. Results vary by market &amp; effort.</div>
+  </div>
+</footer>
+<script src="js/site.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>
