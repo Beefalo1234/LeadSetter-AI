@@ -238,11 +238,11 @@ footer .comp{font-family:var(--mono);font-size:12px;margin-top:14px;max-width:72
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 
-/* ── stats grid (7 on desktop, main 5 on mobile) ── */
-.stats{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
-.stat{padding:14px 8px}
-@media (max-width:980px){.stats{grid-template-columns:repeat(5,1fr);gap:8px}.stat:nth-child(6),.stat:nth-child(7){display:none}}
-@media (max-width:560px){.stats{grid-template-columns:repeat(3,1fr)}.stat .v{font-size:22px}.stat .l{font-size:10px}}
+/* ── stats grid (9 numbers; 3-column lines on mobile) ── */
+.stats{display:grid;grid-template-columns:repeat(9,1fr);gap:8px}
+.stat{padding:14px 6px}
+@media (max-width:980px){.stats{grid-template-columns:repeat(3,1fr);gap:8px}}
+@media (max-width:560px){.stat .v{font-size:22px}.stat .l{font-size:10px}}
 
 /* ── service picker (pills + arrows + dots) ── */
 .picker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin:26px 0 10px}

@@ -99,6 +99,8 @@ home = """
   <div class="stat"><div class="v">$0</div><div class="l">setup fee — cancel anytime</div></div>
   <div class="stat"><div class="v">14</div><div class="l">day refund — no forms, no fights</div></div>
   <div class="stat"><div class="v">65%</div><div class="l">cheaper than Angi's $300+/mo plans</div></div>
+  <div class="stat"><div class="v">24/7</div><div class="l">answered — nights, weekends, holidays</div></div>
+  <div class="stat"><div class="v">50%</div><div class="l">off when you stack 3+ services</div></div>
 </div></div></section>
 
 <section class="enemy" id="enemy"><div class="wrap">
