@@ -43,7 +43,7 @@
     });
 
     function render() {
-      if (!selected.size) { out.hidden = true; return; }
+      if (!selected.size) { out.hidden = false; document.getElementById("bTotal").textContent = "Tap any service above"; document.getElementById("bMenu").textContent = "—"; document.getElementById("bList").textContent = "—"; document.getElementById("bHalfRow").hidden = true; document.getElementById("bKindRow").hidden = true; document.getElementById("bRoi").textContent = "—"; document.getElementById("bBadges").innerHTML = ""; document.getElementById("bCheckout").href = "#"; return; }
       out.hidden = false;
       const ids = [...selected];
       document.getElementById("bList").textContent = ids.map(k => SVCS[k].n).join(", ");

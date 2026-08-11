@@ -100,7 +100,7 @@ home = """
 <header class="hero">
   <div class="wrap">
     <div class="badge">NYC-born · done-for-you · FCC-compliant</div>
-    <h1>Stop buying shared leads from Angi.<br><span class="grad">Get 20–40 exclusive leads a month.</span></h1>
+    <h1>Stop buying shared leads from Angi.<br><span class="grad">Never miss a call again.</span></h1>
     <p class="lead">Your phone rings at 7pm — it's a <b>$12,000 roof</b>. You're on a ladder, so he calls the next guy. <b>Our AI answers in 2 seconds, 24/7</b> and books the job into your calendar — while our 9-service stack keeps the calls coming: Google Maps, reviews, social, SMS, and past-customer reactivation. Every lead is <b>yours alone</b>, confirmed, and $20 each.</p>
     <div class="ctas">
       <a class="btn btn-gold" href="pricing.html">Get 50% Off — See Plans →</a>
@@ -273,7 +273,7 @@ pricing = """
       <div class="svc" data-svc="citations"><span class="tick">✓</span><span class="sn">Listings &amp; Directories (Yelp, BBB…)</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=citations">Buy</a></div>
       <div class="svc" data-svc="tracking"><span class="tick">✓</span><span class="sn">Call Tracking &amp; ROI Reports</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=tracking">Buy</a></div>
     </div>
-    <div class="builder-out" id="builderOut" hidden>
+    <div class="builder-out" id="builderOut">
       <div class="kicker" style="margin-top:26px">Build your own plan</div>
       <div class="b-summary">
         <div class="b-row"><span class="k">Services picked</span><span class="v" id="bList">—</span></div>
