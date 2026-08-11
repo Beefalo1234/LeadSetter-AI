@@ -35,7 +35,7 @@ h2{font-size:clamp(28px,4vw,42px);font-weight:750;letter-spacing:-.02em;line-hei
 #particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.32;z-index:0;pointer-events:none}
 .orb-g{width:520px;height:520px;background:radial-gradient(circle,rgba(232,163,61,.55),transparent 65%);top:-160px;left:-140px;animation:drift 18s ease-in-out infinite alternate}
-.orb-b{width:480px;height:480px;background:radial-gradient(circle,rgba(61,155,232,.5),transparent 65%);bottom:-120px;right:-120px;animation:drift 22s ease-in-out infinite alternate-reverse}
+.orb-b{width:480px;height:480px;background:radial-gradient(circle,rgba(61,155,232,.28),transparent 65%);bottom:-120px;right:-120px;opacity:.12;filter:blur(100px);animation:drift 22s ease-in-out infinite alternate-reverse}
 .orb-g2{width:360px;height:360px;background:radial-gradient(circle,rgba(61,220,132,.35),transparent 65%);top:40%;left:55%;animation:drift 26s ease-in-out infinite alternate}
 @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(60px,-40px) scale(1.12)}}
 
@@ -76,6 +76,9 @@ h1 .grad{background:linear-gradient(120deg,var(--gold2),var(--gold) 45%,var(--bl
 .fc2{top:26px;left:240px;animation-delay:1.6s}
 .fc3{top:96px;left:60px;animation-delay:3.1s}
 .fc4{top:130px;left:300px;animation-delay:4.4s}
+.fc5{top:52px;left:385px;width:255px;padding:26px 22px;border:1px solid rgba(232,163,61,.55);background:linear-gradient(160deg,rgba(232,163,61,.16),rgba(21,26,34,.92));box-shadow:0 14px 44px rgba(0,0,0,.5),0 0 30px rgba(232,163,61,.12);animation-delay:2.4s}
+.fc5 .n{font-size:18px;letter-spacing:.05em;line-height:1.25}
+.fc5 .l{font-size:13.5px;color:var(--ink);margin-top:8px;line-height:1.45}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 
 /* ── stat band ─────────────────────────────────── */
@@ -295,14 +298,16 @@ footer .comp{font-family:var(--mono);font-size:12px;margin-top:14px;max-width:72
 .ico,.gico{color:var(--gold);line-height:1}
 .ico svg,.gico svg{display:block;margin:0 auto;filter:drop-shadow(0 0 8px rgba(232,163,61,.35))}
 
-/* ── stats: 3x3 grid, large see-through squares ── */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.stat{background:transparent;border:1px dashed rgba(232,163,61,.28);border-radius:14px;
-  min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  padding:16px 10px;backdrop-filter:none}
-.stat .v{font-size:34px;color:var(--gold2);text-shadow:0 0 22px rgba(232,163,61,.35)}
-.stat .l{font-size:12.5px;max-width:170px;line-height:1.35}
-@media (max-width:560px){.stat{min-height:100px}.stat .v{font-size:26px}.stat .l{font-size:11px}}
+/* ── stats: wide 4x3 grid, big see-through squares ── */
+.stats .wrap{max-width:1400px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat{background:transparent;border:1px dashed rgba(232,163,61,.3);border-radius:16px;
+  min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  padding:22px 14px}
+.stat .v{font-size:44px;color:var(--gold2);text-shadow:0 0 26px rgba(232,163,61,.4)}
+.stat .l{font-size:13.5px;max-width:210px;line-height:1.4;text-align:center}
+@media (max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:680px){.stats{grid-template-columns:repeat(2,1fr);gap:12px}.stat{min-height:120px;padding:16px 10px}.stat .v{font-size:30px}.stat .l{font-size:11.5px}}
 
 /* ── à la carte cards are the builder (clickable) ── */
 .svc{cursor:pointer;position:relative;transition:.15s}

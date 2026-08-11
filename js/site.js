@@ -93,14 +93,26 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
-  /* ── counters ───────────────────────────────────── */
-  const cio = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    const el = e.target; cio.unobserve(el);
-    const to = +el.dataset.to, pre = el.dataset.prefix || "", suf = el.dataset.suffix || "", t0 = performance.now(), D = 1400;
-    (function step(t) { const p = Math.min(1, (t - t0) / D), v = Math.round(to * (1 - Math.pow(1 - p, 3))); el.textContent = pre + v + suf; if (p < 1) requestAnimationFrame(step); })(t0);
-  }), { threshold: .5 });
-  document.querySelectorAll(".cnt").forEach(el => cio.observe(el));
+  /* ── counters (cascade: each square counts up one by one) ── */
+  const cnts = [...document.querySelectorAll(".cnt")];
+  if (cnts.length) {
+    const run = () => cnts.forEach((el, i) => {
+      const to = +el.dataset.to, pre = el.dataset.prefix || "", suf = el.dataset.suffix || "", D = 1200;
+      setTimeout(() => {
+        const t0 = performance.now();
+        (function step(t) {
+          const p = Math.min(1, (t - t0) / D), v = Math.round(to * (1 - Math.pow(1 - p, 3)));
+          el.textContent = pre + v + suf;
+          if (p < 1) requestAnimationFrame(step);
+        })(t0);
+      }, i * 420);
+    });
+    const cio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      cio.disconnect(); run();
+    }), { threshold: .2 });
+    cio.observe(cnts[0].closest("section") || cnts[0]);
+  }
 
   /* ── calculator (pricing page) ──────────────────── */
   const leads = document.getElementById("leads");
