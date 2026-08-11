@@ -1,10 +1,14 @@
-/* LeadSetter AI — custom plan builder (pricing page) */
+/* LeadSetter AI — custom plan builder (pricing page)
+   The à la carte grid IS the builder: tap service cards to pick them.
+   Discounts: 3+ services → 50% OFF, then a "Kindness" −5% applies to
+   roughly half of all possible combos (deterministic parity rule,
+   includes 1- and 2-service picks). Same rule lives in checkout.js. */
 "use strict";
 (function () {
   const SVCS = {
-    ai:        { n: "AI Appointment Setting", p: 60, lead: true },
-    gbp:       { n: "Google Maps Optimization", p: 60, was: 80 },
-    social:    { n: "Social Media Management", p: 60, was: 80 },
+    ai:        { n: "AI Appointment Setting", p: 60 },
+    gbp:       { n: "Google Maps / GBP Optimization", p: 60 },
+    social:    { n: "Social Media Management", p: 60 },
     reviews:   { n: "Review Generation", p: 20 },
     website:   { n: "Website Management", p: 20 },
     sms:       { n: "SMS Marketing", p: 20 },
@@ -12,80 +16,66 @@
     citations: { n: "Listings & Directories", p: 20 },
     tracking:  { n: "Call Tracking & ROI Reports", p: 20 }
   };
-  // fun combo discounts — stack AFTER the 50% bundle discount
-  const COMBOS = [
-    { s: ["ai", "social"], name: "Dynamic Duo", off: 0.05 },
-    { s: ["gbp", "reviews"], name: "Local Hero", off: 0.05 },
-    { s: ["sms", "email"], name: "Double Reach", off: 0.05 },
-    { s: ["website", "tracking"], name: "Data Duo", off: 0.05 }
-  ];
-  const GHOST = ["Reputation Monitoring (coming soon)", "Instant Quote Engine (coming soon)"];
+  const ORDER = Object.keys(SVCS); // ai=1 … tracking=9
 
+  // Kindness −5%: applies when the sum of (1-based) service positions is even.
+  // Exactly half of all subsets qualify (255 of 511 non-empty) — deterministic.
+  function kindness(ids) {
+    return (ids.reduce((a, k) => a + (ORDER.indexOf(k) + 1), 0) % 2) === 0;
+  }
   function money(x) { return "$" + Math.round(x).toLocaleString(); }
 
   function init() {
-    const grid = document.getElementById("builderGrid");
+    const cards = document.querySelectorAll("#svcGrid .svc");
     const out = document.getElementById("builderOut");
-    if (!grid || !out) return;
+    if (!cards.length || !out) return;
 
     const selected = new Set();
-    const pills = {};
 
-    Object.entries(SVCS).forEach(([k, v]) => {
-      const el = document.createElement("button");
-      el.className = "bp";
-      el.innerHTML = '<span class="tick">✓</span><div class="bn">' + v.n + '</div><div class="bp2">' +
-        (v.was ? '<s class="wasprice">$' + v.was + '</s>' : "") + "$" + v.p + "/mo" +
-        (v.lead ? " + $20/lead" : "") + "</div>";
-      el.addEventListener("click", () => {
-        if (selected.has(k)) { selected.delete(k); el.classList.remove("on"); }
-        else { selected.add(k); el.classList.add("on"); }
+    cards.forEach(card => {
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".buy")) return; // let the Buy link do its thing
+        const k = card.dataset.svc;
+        if (selected.has(k)) { selected.delete(k); card.classList.remove("on"); }
+        else { selected.add(k); card.classList.add("on"); }
         render();
       });
-      pills[k] = el;
-      grid.appendChild(el);
-    });
-    GHOST.forEach(g => {
-      const el = document.createElement("div");
-      el.className = "bp ghost-card";
-      el.innerHTML = '<div class="bn">' + g + "</div><div class=\"bp2\">more services are on the way</div>";
-      grid.appendChild(el);
     });
 
     function render() {
       if (!selected.size) { out.hidden = true; return; }
       out.hidden = false;
-      const list = [...selected].map(k => SVCS[k].n);
-      document.getElementById("bList").textContent = list.join(", ");
-      const menu = [...selected].reduce((a, k) => a + SVCS[k].p, 0);
+      const ids = [...selected];
+      document.getElementById("bList").textContent = ids.map(k => SVCS[k].n).join(", ");
+      const menu = ids.reduce((a, k) => a + SVCS[k].p, 0);
       document.getElementById("bMenu").textContent = money(menu);
       const halfRow = document.getElementById("bHalfRow");
       const half = document.getElementById("bHalf");
-      const comboRow = document.getElementById("bComboRow");
-      const combo = document.getElementById("bCombo");
+      const kindRow = document.getElementById("bKindRow");
+      const kindEl = document.getElementById("bKind");
       let total = menu;
-      if (selected.size >= 3) {
+      if (ids.length >= 3) {
         half.textContent = "−" + money(menu / 2);
         total = menu / 2;
         halfRow.hidden = false;
       } else { halfRow.hidden = true; }
-      const hits = COMBOS.filter(c => c.s.every(s => selected.has(s)));
-      if (hits.length) {
-        const saved = hits.reduce((a, c) => a + total * c.off, 0);
-        combo.textContent = "−" + money(saved) + " (" + hits.map(c => c.name + " −5%").join(", ") + ")";
+      let kindActive = false;
+      if (kindness(ids)) {
+        const saved = total * 0.05;
+        kindEl.textContent = "−" + money(saved);
         total -= saved;
-        comboRow.hidden = false;
-      } else { comboRow.hidden = true; }
+        kindActive = true;
+        kindRow.hidden = false;
+      } else { kindRow.hidden = true; }
       document.getElementById("bTotal").textContent = money(total) + "/mo";
-      const leads = Math.round(10 + selected.size * 4);
-      const jobVal = "$500–$5,000";
-      document.getElementById("bRoi").textContent = "~" + leads + " leads/mo, each worth " + jobVal + " — vs " + money(total) + "/mo";
+      const leads = Math.round(10 + ids.length * 4);
+      document.getElementById("bRoi").textContent = "~" + leads + " leads/mo, each worth $500–$5,000 — vs " + money(total) + "/mo";
       const badges = document.getElementById("bBadges");
       badges.innerHTML = "";
-      if (selected.size >= 3) badges.appendChild(badge("50% OFF — " + selected.size + " services"));
-      hits.forEach(c => badges.appendChild(badge(c.name + " −5%")));
-      badges.appendChild(badge("$0 setup · 14-day refund"));
-      document.getElementById("bCheckout").href = "checkout.html?custom=" + [...selected].join(",");
+      if (ids.length >= 3) badges.appendChild(badge("50% OFF — " + ids.length + " services"));
+      if (kindActive) badges.appendChild(badge("Kindness −5%"));
+      badges.appendChild(badge("$0 setup · 14-day money-back"));
+      document.getElementById("bCheckout").href = "checkout.html?custom=" + ids.join(",");
     }
     function badge(t) { const b = document.createElement("span"); b.className = "bbadge"; b.textContent = t; return b; }
   }

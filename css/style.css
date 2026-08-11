@@ -54,7 +54,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 nav a.navl{color:var(--muted);font-size:14px;font-weight:600;margin-left:26px}
 nav a.navl:hover{color:var(--ink);text-decoration:none}
 nav a.navl.on{color:var(--gold2)}
-.cta-mini{padding:9px 20px;font-size:14px}
+.cta-mini{padding:9px 20px;font-size:14px;margin-left:14px}
 @media(max-width:760px){nav .wrap{flex-wrap:wrap;height:auto;padding:12px 0;gap:8px}nav a.navl{margin-left:14px;font-size:13px}}
 
 /* ── hero ──────────────────────────────────────── */
@@ -290,3 +290,26 @@ footer .comp{font-family:var(--mono);font-size:12px;margin-top:14px;max-width:72
 
 /* ── contact spacing fix ── */
 #contact .contact-card{margin-top:0}
+
+/* ── gold icon system ── */
+.ico,.gico{color:var(--gold);line-height:1}
+.ico svg,.gico svg{display:block;margin:0 auto;filter:drop-shadow(0 0 8px rgba(232,163,61,.35))}
+
+/* ── stats: 3x3 grid, large see-through squares ── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{background:transparent;border:1px dashed rgba(232,163,61,.28);border-radius:14px;
+  min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:16px 10px;backdrop-filter:none}
+.stat .v{font-size:34px;color:var(--gold2);text-shadow:0 0 22px rgba(232,163,61,.35)}
+.stat .l{font-size:12.5px;max-width:170px;line-height:1.35}
+@media (max-width:560px){.stat{min-height:100px}.stat .v{font-size:26px}.stat .l{font-size:11px}}
+
+/* ── à la carte cards are the builder (clickable) ── */
+.svc{cursor:pointer;position:relative;transition:.15s}
+.svc:hover{border-color:var(--gold)}
+.svc.on{border-color:var(--gold);box-shadow:0 0 16px rgba(232,163,61,.22);background:rgba(232,163,61,.06)}
+.svc .tick{position:absolute;top:-8px;right:-8px;background:var(--gold);color:#0a0c10;width:22px;height:22px;
+  border-radius:99px;font-size:13px;font-weight:800;display:none;align-items:center;justify-content:center;z-index:2}
+.svc.on .tick{display:flex}
+.svc .buy{pointer-events:auto}
+.svc.on .buy{border-color:var(--gold);color:var(--gold2)}

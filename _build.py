@@ -13,7 +13,7 @@ HEAD = """<!DOCTYPE html>
 <body>
 <canvas id="particles"></canvas>
 <div class="orb orb-g"></div><div class="orb orb-b"></div><div class="orb orb-g2"></div>
-<div class="launchbar"><span class="pulse"></span><b>LOCK-IN PRICING:</b> any 3+ services <b>50% OFF</b> at checkout · FULL STACK — all 9 services — <b>$200/mo</b> · <b>$0 setup</b> · <b>14-day refund</b> · <a href="pricing.html">pick your plan →</a></div>
+<div class="launchbar"><span class="pulse"></span><b>LAUNCH PRICING:</b> any 3+ services <b>50% OFF</b> at checkout · FULL STACK — all 9 services — <b>$200/mo</b> · <b>$0 setup</b> · <b>14-day money-back</b> · <a href="pricing.html">pick your plan →</a></div>
 <nav><div class="wrap">
   <div class="logo">LeadSetter<span>AI</span></div>
   <div style="display:flex;align-items:center;flex-wrap:wrap">
@@ -51,20 +51,45 @@ def page(fname, title, desc, body, active="", body_script=""):
           ["HOME", "PRICING", "HOW", "COMPARE", "FAQ"]}
     html = HEAD.format(TITLE=title, DESC=desc, **on)
     html += body
+    EMOJI2IC = {"📞": "phone", "🗺️": "map", "⭐": "star", "🎯": "target",
+                "📇": "card", "⚡": "zap", "🔒": "lock", "📅": "calendar",
+                "🧾": "receipt", "🛡️": "shield", "🚪": "unlock", "🗽": "compass"}
+    for e, n in EMOJI2IC.items():
+        html = html.replace(e, ic(n))
     html += FOOT.format(BODY_SCRIPT=body_script)
     open(fname, "w", encoding="utf-8").write(html)
     print("wrote", fname, len(html)//1024, "KB")
 
+# ── minimal gold icon set (feather-style, stroke = currentColor) ──
+SVGS = {
+  "phone":    '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  "map":      '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',
+  "star":     '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  "target":   '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  "card":     '<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+  "zap":      '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  "lock":     '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  "calendar": '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  "receipt":  '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+  "shield":   '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  "unlock":   '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>',
+  "compass":  '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>'
+}
+def ic(name, size=22):
+    return ('<svg class="ic" width="%d" height="%d" viewBox="0 0 24 24" fill="none" '
+            'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+            'stroke-linejoin="round">%s</svg>' % (size, size, SVGS[name]))
+
 CTA = """
 <section class="cta-final" id="cta"><div class="wrap">
-  <div class="kicker reveal">Lock it in</div>
+  <div class="kicker reveal">Launch pricing — lock it in</div>
   <h2 class="reveal">Any 3+ services = <span class="grad">50% off.</span> Full Stack, $200.</h2>
-  <p>Checkout takes 60 seconds. $0 setup, cancel anytime, 14-day refund on every plan — and you only pay the $20/lead for leads actually delivered.</p>
+  <p>Checkout takes 60 seconds. $0 setup, cancel anytime, 14-day money-back — if no leads land in your first two weeks, you get a full refund. You only pay the $20/lead for leads actually delivered.</p>
   <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
     <a class="btn btn-gold" href="pricing.html">See Plans + Checkout →</a>
     <a class="btn btn-ghost" href="faq.html#contact">Questions? Talk to us</a>
   </div>
-  <p class="trustline mono" style="color:var(--dim);margin-top:18px">$0 setup · cancel anytime · <b>14-day refund</b> · any 3+ services 50% OFF · Full Stack $200/mo</p>
+  <p class="trustline mono" style="color:var(--dim);margin-top:18px">LAUNCH PRICING — any 3+ services 50% OFF · Full Stack $200/mo · $0 setup · cancel anytime · <b>14-day money-back</b></p>
 </div></section>
 """
 
@@ -74,14 +99,14 @@ CTA = """
 home = """
 <header class="hero">
   <div class="wrap">
-    <div class="badge">⚡ NYC-born · done-for-you · FCC-compliant</div>
-    <h1>Stop buying shared leads from Angi.<br><span class="grad">Never miss a call again.</span></h1>
-    <p class="lead">Your phone rings at 7pm — it's a <b>$12,000 roof</b>. You don't answer, so he calls the next guy. <b>Our AI answers in 2 seconds, 24/7</b>, and books the job into your calendar before your competitor even sees the notification.</p>
+    <div class="badge">NYC-born · done-for-you · FCC-compliant</div>
+    <h1>Stop buying shared leads from Angi.<br><span class="grad">Get 20–40 exclusive leads a month.</span></h1>
+    <p class="lead">Your phone rings at 7pm — it's a <b>$12,000 roof</b>. You're on a ladder, so he calls the next guy. <b>Our AI answers in 2 seconds, 24/7</b> and books the job into your calendar — while our 9-service stack keeps the calls coming: Google Maps, reviews, social, SMS, and past-customer reactivation. Every lead is <b>yours alone</b>, confirmed, and $20 each.</p>
     <div class="ctas">
       <a class="btn btn-gold" href="pricing.html">Get 50% Off — See Plans →</a>
       <a class="btn btn-ghost" href="how-it-works.html">How We Get Leads</a>
     </div>
-    <div class="trustline">$20 per qualified lead · <b>$0 setup</b> · no contract · <b>14-day refund</b> · you own every lead</div>
+    <div class="trustline">$20 per qualified lead · <b>$0 setup</b> · no contract · <b>14-day money-back: no leads in 2 weeks = full refund</b> · you own every lead</div>
     <div class="floaters">
       <div class="fcard fc1"><div class="n">2 SEC</div><div class="l">AI answers every call</div></div>
       <div class="fcard fc2"><div class="n">24/7</div><div class="l">weekends &amp; holidays</div></div>
@@ -97,7 +122,7 @@ home = """
   <div class="stat"><div class="v"><span class="cnt" data-to="20" data-prefix="$">0</span></div><div class="l">per qualified lead (vs $45–228 Google)</div></div>
   <div class="stat"><div class="v"><span class="cnt" data-to="9">0</span></div><div class="l">services in the Full Stack</div></div>
   <div class="stat"><div class="v">$0</div><div class="l">setup fee — cancel anytime</div></div>
-  <div class="stat"><div class="v">14</div><div class="l">day refund — no forms, no fights</div></div>
+  <div class="stat"><div class="v">14</div><div class="l">day money-back — no leads in 2 weeks = refund</div></div>
   <div class="stat"><div class="v">65%</div><div class="l">cheaper than Angi's $300+/mo plans</div></div>
   <div class="stat"><div class="v">24/7</div><div class="l">answered — nights, weekends, holidays</div></div>
   <div class="stat"><div class="v">50%</div><div class="l">off when you stack 3+ services</div></div>
@@ -164,15 +189,15 @@ page("index.html", "LeadSetter AI — Never Miss a Job Again | AI Appointment Se
 # ══════════════════════════════════════════════════════════════════
 pricing = """
 <section class="page-head"><div class="wrap">
-  <div class="kicker reveal">Pricing — built lean, priced fair</div>
-  <h1 class="reveal">Enterprise-level features. <span class="grad">Contractor-sized prices.</span></h1>
-  <p class="sub reveal">Secure checkout below. Every plan: <b>$0 setup · no contract · 14-day refund · cancel anytime</b> — you only pay the $20/lead for leads actually delivered.</p>
+  <div class="kicker reveal">Pricing — launch window</div>
+  <h1 class="reveal">Enterprise infrastructure. <span class="grad">Contractor pricing.</span></h1>
+  <p class="sub reveal">Secure checkout below. Every plan: <b>$0 setup · no contract · 14-day money-back</b> (no leads in 2 weeks = full refund) — and you only pay the $20/lead for leads actually delivered.</p>
 </div></section>
 
 <section id="plans"><div class="wrap">
   <div class="rule-banner reveal">
     <div class="big">Any 3+ services → 50% OFF, applied automatically at checkout.</div>
-    <p>Every service is $20–60/mo. Stack three or more and the discount applies instantly on your card. $0 setup. 14-day refund on plans. Cancel anytime.</p>
+    <p>Every service is $20–60/mo. Stack three or more and the discount applies instantly on your card. $0 setup. 14-day money-back — no leads in 2 weeks = full refund. Cancel anytime.</p>
   </div>
   <div class="tiers reveal">
     <div class="tier">
@@ -233,41 +258,35 @@ pricing = """
       <a class="btn btn-gold" href="checkout.html?bundle=full-stack">Checkout → Everything. $200.</a>
     </div>
   </div>
-  <p class="leadnote">Every plan: <b>$0 setup · no contract · 14-day refund · cancel anytime</b> — and you only pay the $20/lead <b>for leads actually delivered</b>.</p>
+  <p class="leadnote">Every plan: <b>$0 setup · no contract · 14-day money-back</b> (no leads in 2 weeks = full refund) · cancel anytime — and you only pay the $20/lead <b>for leads actually delivered</b>.</p>
 
   <div class="services reveal">
-    <h3>À la carte — all 9 services <span style="color:var(--green);font-family:var(--mono);font-size:13px">(add 3+ → each is 50% off)</span></h3>
-    <div class="sgrid">
-      <div class="svc"><span class="sn">AI Appointment Setting</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo + $20/lead</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=ai">Buy</a></div>
-      <div class="svc"><span class="sn">Google Maps Optimization</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=gbp">Buy</a></div>
-      <div class="svc"><span class="sn">Social Media Management</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=social">Buy</a></div>
-      <div class="svc"><span class="sn">Review Generation</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=reviews">Buy</a></div>
-      <div class="svc"><span class="sn">Website Management</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=website">Buy</a></div>
-      <div class="svc"><span class="sn">SMS Marketing</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=sms">Buy</a></div>
-      <div class="svc"><span class="sn">Email Marketing / Newsletter</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=email">Buy</a></div>
-      <div class="svc"><span class="sn">Listings &amp; Directories (Yelp, BBB…)</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=citations">Buy</a></div>
-      <div class="svc"><span class="sn">Call Tracking &amp; ROI Reports</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small" href="checkout.html?service=tracking">Buy</a></div>
+    <h3>À la carte — all 9 services <span style="color:var(--green);font-family:var(--mono);font-size:13px">(tap to build · add 3+ → each is 50% off)</span></h3>
+    <div class="sgrid" id="svcGrid">
+      <div class="svc" data-svc="ai"><span class="tick">✓</span><span class="sn">AI Appointment Setting</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo + $20/lead</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=ai">Buy</a></div>
+      <div class="svc" data-svc="gbp"><span class="tick">✓</span><span class="sn">Google Maps / GBP Optimization</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=gbp">Buy</a></div>
+      <div class="svc" data-svc="social"><span class="tick">✓</span><span class="sn">Social Media Management</span><div class="sprice"><span class="sp"><s class="wasprice">$80</s> $60/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=social">Buy</a></div>
+      <div class="svc" data-svc="reviews"><span class="tick">✓</span><span class="sn">Review Generation</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=reviews">Buy</a></div>
+      <div class="svc" data-svc="website"><span class="tick">✓</span><span class="sn">Website Management</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=website">Buy</a></div>
+      <div class="svc" data-svc="sms"><span class="tick">✓</span><span class="sn">SMS Marketing</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=sms">Buy</a></div>
+      <div class="svc" data-svc="email"><span class="tick">✓</span><span class="sn">Email Marketing / Newsletter</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=email">Buy</a></div>
+      <div class="svc" data-svc="citations"><span class="tick">✓</span><span class="sn">Listings &amp; Directories (Yelp, BBB…)</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=citations">Buy</a></div>
+      <div class="svc" data-svc="tracking"><span class="tick">✓</span><span class="sn">Call Tracking &amp; ROI Reports</span><div class="sprice"><span class="sp">$20/mo</span><span class="off">50% OFF at 3+</span></div><a class="btn btn-ghost small buy" href="checkout.html?service=tracking">Buy</a></div>
     </div>
-  </div>
-
-  <div class="builder reveal" id="builder">
-    <div class="kicker">Build your own plan</div>
-    <h3>Tap the services you want. <span class="grad">We do the math.</span></h3>
-    <p class="sub" style="margin-top:6px">Stack 3+ and every service drops 50% — then combo discounts stack on top. Total, savings, and projected ROI update as you tap.</p>
-    <div class="builder-grid" id="builderGrid"></div>
     <div class="builder-out" id="builderOut" hidden>
+      <div class="kicker" style="margin-top:26px">Build your own plan</div>
       <div class="b-summary">
         <div class="b-row"><span class="k">Services picked</span><span class="v" id="bList">—</span></div>
         <div class="b-row"><span class="k">Menu price</span><span class="v" id="bMenu">—</span></div>
         <div class="b-row" id="bHalfRow" hidden><span class="k">3+ services → 50% OFF</span><span class="v good" id="bHalf">—</span></div>
-        <div class="b-row" id="bComboRow" hidden><span class="k">Combo discounts</span><span class="v good" id="bCombo">—</span></div>
+        <div class="b-row" id="bKindRow" hidden><span class="k">Kindness −5%</span><span class="v good" id="bKind">—</span></div>
         <div class="b-row total"><span class="k">Your monthly price</span><span class="v gold" id="bTotal">—</span></div>
         <div class="b-row"><span class="k">Estimated ROI</span><span class="v good" id="bRoi">—</span></div>
         <div class="b-badges" id="bBadges"></div>
       </div>
       <div style="margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-gold" id="bCheckout" href="#">Checkout This Plan →</a>
-        <span class="mono" style="font-size:12px;color:var(--dim);align-self:center">$0 setup · cancel anytime · 14-day refund</span>
+        <span class="mono" style="font-size:12px;color:var(--dim);align-self:center">$0 setup · cancel anytime · 14-day money-back</span>
       </div>
     </div>
   </div>
@@ -379,72 +398,100 @@ compare = """
 
 <section><div class="wrap">
   <div class="vstable reveal">
+    <div style="overflow-x:auto">
     <table class="vs">
       <thead>
         <tr>
-          <th>What matters</th>
+          <th>How they get you leads</th>
           <th class="us">LeadSetter AI</th>
-          <th>Angi / Thumbtack</th>
-          <th>DIY AI tools (GHL, etc.)</th>
+          <th>Angi / HomeAdvisor</th>
+          <th>Thumbtack</th>
+          <th>Google Local Services</th>
+          <th>Yelp Ads</th>
+          <th>Podium / Broadly</th>
+          <th>Smith.ai / Ruby</th>
+          <th>Agencies</th>
+          <th>DIY tools (GHL)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td class="feat">Your leads are <b>exclusive</b></td>
           <td class="us usrow-hl">✅ 100% — never shared</td>
-          <td><span class="pill p-bad">❌ sold to 3–8 at once</span></td>
-          <td>n/a</td>
+          <td><span class="pill p-bad">❌ sold to 3–8</span></td>
+          <td><span class="pill p-bad">❌ shared</span></td>
+          <td>mostly yours</td>
+          <td><span class="pill p-bad">❌ shared</span></td>
+          <td>your own calls</td>
+          <td>your own calls</td>
+          <td>yours (if it works)</td>
+          <td>your own calls</td>
         </tr>
         <tr>
           <td class="feat">Speed-to-lead</td>
           <td class="us usrow-hl">✅ ~2 seconds, 24/7</td>
-          <td><span class="pill p-bad">hours / manual</span></td>
-          <td><span class="pill p-mid">you build &amp; monitor it</span></td>
+          <td><span class="pill p-bad">hours</span></td>
+          <td><span class="pill p-bad">hours</span></td>
+          <td>fast</td>
+          <td><span class="pill p-bad">hours</span></td>
+          <td>instant</td>
+          <td>instant</td>
+          <td>depends</td>
+          <td>you monitor it</td>
         </tr>
         <tr>
           <td class="feat">Cost / month</td>
-          <td class="us usrow-hl">✅ $60–200 flat</td>
+          <td class="us usrow-hl">✅ $60–200 flat + $20/lead</td>
           <td><span class="pill p-bad">$300+ + $20–150/lead</span></td>
-          <td><span class="pill p-mid">$97–497 + usage</span></td>
+          <td><span class="pill p-bad">$15–60/lead</span></td>
+          <td><span class="pill p-bad">$45–228/lead</span></td>
+          <td><span class="pill p-bad">$300+/mo</span></td>
+          <td><span class="pill p-mid">$300–500/mo</span></td>
+          <td><span class="pill p-bad">$240–2,100/mo</span></td>
+          <td><span class="pill p-bad">$500–5,000 + ad spend</span></td>
+          <td><span class="pill p-mid">$97–497/mo</span></td>
         </tr>
         <tr>
           <td class="feat">Who does the work</td>
           <td class="us usrow-hl">✅ We do — done for you</td>
           <td>you chase leads</td>
+          <td>you chase leads</td>
+          <td>you answer calls</td>
+          <td>you chase leads</td>
           <td><span class="pill p-bad">100% DIY setup</span></td>
+          <td>they answer</td>
+          <td>they manage</td>
+          <td><span class="pill p-bad">100% DIY</span></td>
         </tr>
         <tr>
           <td class="feat">Books + confirms appointments</td>
           <td class="us usrow-hl">✅ AI books &amp; text-confirms</td>
           <td><span class="pill p-bad">no</span></td>
+          <td><span class="pill p-bad">no</span></td>
+          <td>no</td>
+          <td><span class="pill p-bad">no</span></td>
+          <td>if you build it</td>
+          <td>yes</td>
+          <td>maybe</td>
           <td>only if you build it</td>
         </tr>
         <tr>
           <td class="feat">Setup fee / contract</td>
-          <td class="us usrow-hl">✅ $0 · cancel anytime</td>
+          <td class="us usrow-hl">✅ $0 · cancel anytime · 14-day money-back</td>
           <td>month-to-month</td>
+          <td>pay per lead</td>
+          <td>pay per lead</td>
+          <td>month-to-month</td>
+          <td>month-to-month</td>
+          <td>month-to-month</td>
+          <td>contracts</td>
           <td>month-to-month</td>
         </tr>
       </tbody>
     </table>
-  </div>
-  <p class="small-print">Sources: Angi/HomeAdvisor, Thumbtack, Yelp, Smith.ai, GoHighLevel, Podium, Ruby, AnswerConnect pricing pages + Searchlight Digital &amp; Tradesmen Guild benchmarks, checked 2026-08. Individual results vary; numbers are market ranges, not guarantees.</p>
-  <div class="rest-table reveal" style="margin-top:34px">
-    <h3>The rest of the market, in one glance</h3>
-    <div class="vstable" style="margin-top:14px">
-    <table class="vs">
-      <thead><tr><th>Competitor</th><th>What you get</th><th>Their cost</th><th>Why we win</th></tr></thead>
-      <tbody>
-        <tr><td class="feat">Yelp Ads</td><td>Paid placement above reviews; leads shared across advertisers</td><td><span class="pill p-bad">$300+/mo</span></td><td class="us usrow-hl">Exclusive leads, $60–200 flat, AI answers</td></tr>
-        <tr><td class="feat">Google Local Services</td><td>"Google Guaranteed" badge calls from search</td><td><span class="pill p-bad">$45–228/lead</span></td><td class="us usrow-hl">$20 per lead — 2–4x cheaper</td></tr>
-        <tr><td class="feat">Podium / Broadly</td><td>Self-serve software that replies to your missed calls &amp; texts</td><td><span class="pill p-bad">$300–500/mo</span></td><td class="us usrow-hl">Done for you — we build it, run it</td></tr>
-        <tr><td class="feat">Smith.ai / Ruby</td><td>Human receptionists answer your forwarded calls</td><td><span class="pill p-bad">$240–2,100/mo</span></td><td class="us usrow-hl">AI answers 24/7 for $60–200 flat</td></tr>
-        <tr><td class="feat">Marketing agencies</td><td>Monthly retainer, they run ads + SEO for you</td><td><span class="pill p-bad">$500–5,000/mo + ad spend</span></td><td class="us usrow-hl">Same work, slimmer margins, $200 Full Stack</td></tr>
-        <tr><td class="feat">DIY tools (GHL, etc.)</td><td>Software you set up and babysit yourself</td><td><span class="pill p-mid">$97–497/mo</span></td><td class="us usrow-hl">You skip the months of learning</td></tr>
-      </tbody>
-    </table>
     </div>
   </div>
+  <p class="small-print">Sources: Angi/HomeAdvisor, Thumbtack, Yelp, Smith.ai, GoHighLevel, Podium, Ruby, AnswerConnect pricing pages + Searchlight Digital &amp; Tradesmen Guild benchmarks, checked 2026-08. Individual results vary; numbers are market ranges, not guarantees.</p>
 </div></section>
 
 <section id="guarantee"><div class="wrap">
@@ -509,7 +556,7 @@ page("faq.html", "FAQ — Straight Answers | LeadSetter AI",
 checkout = """
 <section class="page-head"><div class="wrap">
   <div class="kicker reveal">Secure checkout</div>
-  <h1 class="reveal">You're <span class="grad">two taps</span> from never missing a call.</h1>
+  <h1 class="reveal">You're <span class="grad">two taps</span> from getting this set up.</h1>
 </div></section>
 
 <section><div class="wrap">

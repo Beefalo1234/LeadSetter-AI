@@ -27,15 +27,15 @@ const CHECKOUT = {
   "tracking":     ""    // $20/mo  Call Tracking & ROI Reports
 };
 
-// plan metadata (name, monthly price, one-liner, features)
+// plan metadata (name, monthly price, optional slashed "was" price, one-liner, features)
 const PLANS = {
-  "starter":     { name: "Starter Bundle", price: 60,  note: "AI + call tracking + reviews · 50% OFF ($100 menu)", features: ["AI appointment setting", "Call tracking & ROI reports", "Review generation", "+ $20 per qualified lead"] },
-  "advertising": { name: "Advertising Bundle", price: 110, note: "AI + social + SMS + email + tracking · 50% OFF ($180 menu)", features: ["AI appointment setting", "Social media management", "SMS marketing", "Email marketing", "Call tracking & ROI reports", "+ $20 per qualified lead"] },
-  "domination":  { name: "Local Domination", price: 110, note: "GBP + reviews + citations + website + social · 50% OFF ($180 menu)", features: ["Google Maps / GBP optimization", "Review generation", "Citations & directories", "Website management", "Social media management", "No lead fee — rank & convert"] },
-  "full-stack":  { name: "Full Stack", price: 200, note: "All 9 services · $300 menu → $200 clean", features: ["All 9 services", "AI appointment setting + $20/lead", "Everything a $2,500/mo agency does", "Done for you — we run it all"] },
-  "ai":          { name: "AI Appointment Setting", price: 60, note: "à la carte · was $80", features: ["AI answers missed calls ~2s, 24/7", "Books into your calendar", "Text confirmation & no-show reduction", "+ $20 per qualified lead"] },
-  "gbp":         { name: "Google Maps / GBP Optimization", price: 60, note: "à la carte · was $80", features: ["Google Business Profile setup & tuning", "Category / service keyword optimization", "Photo & post management"] },
-  "social":      { name: "Social Media Management", price: 60, note: "à la carte · was $80", features: ["Content calendar & posting", "Local audience growth", "Monthly performance recap"] },
+  "starter":     { name: "Starter Bundle", price: 60, was: 100, note: "AI + call tracking + reviews · 50% OFF", features: ["AI appointment setting", "Call tracking & ROI reports", "Review generation", "+ $20 per qualified lead"] },
+  "advertising": { name: "Advertising Bundle", price: 110, was: 180, note: "AI + social + SMS + email + tracking · 50% OFF", features: ["AI appointment setting", "Social media management", "SMS marketing", "Email marketing", "Call tracking & ROI reports", "+ $20 per qualified lead"] },
+  "domination":  { name: "Local Domination", price: 110, was: 180, note: "GBP + reviews + citations + website + social · 50% OFF", features: ["Google Maps / GBP optimization", "Review generation", "Citations & directories", "Website management", "Social media management", "No lead fee — rank & convert"] },
+  "full-stack":  { name: "Full Stack", price: 200, was: 300, note: "All 9 services · $300 menu → $200 clean", features: ["All 9 services", "AI appointment setting + $20/lead", "Everything a $2,500/mo agency does", "Done for you — we run it all"] },
+  "ai":          { name: "AI Appointment Setting", price: 60, was: 80, note: "à la carte", features: ["AI answers missed calls ~2s, 24/7", "Books into your calendar", "Text confirmation & no-show reduction", "+ $20 per qualified lead"] },
+  "gbp":         { name: "Google Maps / GBP Optimization", price: 60, was: 80, note: "à la carte", features: ["Google Business Profile setup & tuning", "Category / service keyword optimization", "Photo & post management"] },
+  "social":      { name: "Social Media Management", price: 60, was: 80, note: "à la carte", features: ["Content calendar & posting", "Local audience growth", "Monthly performance recap"] },
   "reviews":     { name: "Review Generation", price: 20, note: "à la carte", features: ["Automated review requests after jobs", "Reply management", "Rating trend reporting"] },
   "website":     { name: "Website Management", price: 20, note: "à la carte", features: ["Landing page updates", "Speed & mobile polish", "Booking form integration"] },
   "sms":         { name: "SMS Marketing", price: 20, note: "à la carte", features: ["Campaign texts to opted-in lists", "Seasonal offers", "Compliance built in (STOP = stop)"] },
@@ -60,7 +60,8 @@ function alaCarteTotal(price, count) {
   const custom = params.get("custom");
   const plan = PLANS[key];
 
-  // custom plan: ?custom=ai,gbp,reviews — compute 50% + combo discounts
+  // custom plan: ?custom=ai,gbp,reviews — compute 50% + Kindness −5%
+  const ORDER = ["ai", "gbp", "social", "reviews", "website", "sms", "email", "citations", "tracking"];
   let customPlan = null;
   if (custom) {
     const ids = custom.split(",").filter(k => PLANS[k]);
@@ -68,21 +69,16 @@ function alaCarteTotal(price, count) {
     let total = menu;
     let note = "$" + menu + " menu";
     if (ids.length >= 3) { total = menu / 2; note += " → 50% OFF"; }
-    const combos = [
-      { s: ["ai", "social"], name: "Dynamic Duo" },
-      { s: ["gbp", "reviews"], name: "Local Hero" },
-      { s: ["sms", "email"], name: "Double Reach" },
-      { s: ["website", "tracking"], name: "Data Duo" }
-    ];
-    const hits = combos.filter(c => c.s.every(s => ids.includes(s)));
-    if (hits.length) {
-      const saved = hits.reduce((a, c) => a + total * 0.05, 0);
+    const kind = (ids.reduce((a, k) => a + (ORDER.indexOf(k) + 1), 0) % 2) === 0;
+    if (kind && ids.length) {
+      const saved = total * 0.05;
       total -= saved;
-      note += " + " + hits.map(c => c.name + " −5%").join(", ");
+      note += " + Kindness −5%";
     }
     customPlan = {
       name: "Your Custom Plan (" + ids.length + " services)",
       price: Math.round(total),
+      was: menu,
       note: note,
       features: ids.map(k => PLANS[k].name + " — $" + PLANS[k].price + "/mo")
     };
@@ -91,7 +87,7 @@ function alaCarteTotal(price, count) {
 
   document.getElementById("planName").textContent = finalPlan ? finalPlan.name : "Pick a plan";
   document.getElementById("planPrice").innerHTML = finalPlan
-    ? "$" + finalPlan.price + "<small>/mo</small>"
+    ? (finalPlan.was ? '<s class="wasprice">$' + finalPlan.was + '</s> ' : "") + "$" + finalPlan.price + "<small>/mo</small>"
     : "—";
   document.getElementById("planNote").textContent = finalPlan ? finalPlan.note : "";
   const feats = document.getElementById("planFeatures");
